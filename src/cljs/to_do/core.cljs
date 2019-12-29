@@ -2,9 +2,12 @@
   (:require
    [reagent.core :as r]
    [re-frame.core :as re-frame]
+   [day8.re-frame.http-fx]
    [goog.dom :as dom]
    [to-do.routes :refer [app-routes]]
-   [to-do.navigation.views :as views]))
+   [to-do.navigation.views :as views]
+   [to-do.common.events]
+   [to-do.home.events]))
 
 (defn mount-root
   []

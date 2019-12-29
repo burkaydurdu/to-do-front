@@ -1,0 +1,11 @@
+.to-do-modal-body {
+  width: 100%;
+  height: 100%;
+  background: #FFF;
+}
+.to-do-modal-body .field {
+  width: 100%;
+}
+.to-do-modal-body .field .control {
+  margin-bottom: 10px;
+}

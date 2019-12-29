@@ -1,23 +1,31 @@
 (ns to-do.home.views
   (:require
-   [reagent.core :as reagent]
+   [reagent.core :as r]
+   [re-frame.core :refer [subscribe]]
    [to-do.home.sortable-hoc :as sortable]
-   [to-do.home.subs]))
+   [to-do.home.subs]
+   [to-do.home.modals.register :refer [register-view]]
+   [to-do.home.modals.login :refer [login-view]]
+   ))
 
 (defn to-do-list []
   [sortable/sortable-component
       {}
-      (reagent/atom
-       [
-        [:p "Hello"]
+      (r/atom
+       [[:p "Hello"]
         [:p "Naber"]
         [:p "IYI"]])
       [:re-balance-for-state]])
 
 (defn home
   []
-  (reagent/create-class
+  (r/create-class
    {:reagent-render (fn []
-                      [:div 
-                       [to-do-list]])}))
+                      (let [visibility @(subscribe [:visibility])]
+                        [:div 
+                       [to-do-list]
+                       (when (:register-modal? visibility)
+                         [register-view])
+                       (when (:login-modal? visibility)
+                         [login-view])]))}))
 
