@@ -1,12 +1,15 @@
 (ns to-do.common.events
-  (:require [re-frame.core :refer [reg-event-fx reg-event-db]]
+  (:require [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx]]
             [to-do.db :as db]
             [to-do.util :as util]))
 
 (reg-event-fx
  :initialise-db
- (fn [{:keys [db]} _]
-   {:db (assoc db/default-db :name "Example")}))
+ 
+ [(inject-cofx :current-user)]
+ (fn [{:keys [_ current-user]} _]
+   {:db (assoc db/default-db :name "TO-DO"
+                             :current-user current-user)}))
 
 (reg-event-db
   :add-data

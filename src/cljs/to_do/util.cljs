@@ -51,3 +51,20 @@
             :on-failure      (if (vector? on-fail) on-fail [on-fail])}
      (nil? on-success) (assoc :on-success [:no-http-on-ok])
      (nil? on-fail) (assoc :on-failure [:no-http-on-failure]))))
+
+(defn set-item!
+  [key val]
+  (.setItem (.-localStorage js/window) key (.stringify js/JSON (clj->js val))))
+
+(defn get-item
+  [key]
+  (js->clj (.parse js/JSON (.getItem (.-localStorage js/window) key)) :keywordize-keys true))
+
+(defn remove-items!
+  [keys]
+  (doseq [k keys]
+    (.removeItem (.-localStorage js/window) k)))
+
+(defn remove-item!
+  [key]
+  (remove-items! [key]))
