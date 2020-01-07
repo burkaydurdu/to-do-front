@@ -6,7 +6,6 @@
   (fn [db]
     (:login-form db)))
 
-
 (reg-sub
   :register-form
   (fn [db]
@@ -16,3 +15,13 @@
   :visibility
   (fn [db]
     (:visibility db)))
+
+(reg-sub
+  :todo-list
+  (fn [db]
+    (:todo-list db)))
+
+(reg-sub
+  :states
+  (fn [db]
+    (:states db)))

@@ -42,7 +42,7 @@
   ([type uri on-success]
    (create-request-map type uri on-success nil))
   ([type uri on-success on-fail]
-   (cond-> {:headers         {"Authorization" (str "Token token=\"" @(subscribe [:token]) "\"")}
+   (cond-> {:headers         {"token" @(subscribe [:token])}
             :method          type
             :uri             (str api-url uri)
             :format          (ajax/json-request-format)

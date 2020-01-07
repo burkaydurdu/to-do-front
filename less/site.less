@@ -21,3 +21,51 @@
   .modal-content {
     overflow: visible !important;
   }
+
+  .todo-main-panel {
+    display: flex;
+    label.checkbox {
+      margin-right: 10px;
+      input[type="checkbox"]~svg.fa-square {
+        display: inline;
+      }
+      input[type="checkbox"]~svg.fa-check-square {
+        display: none;
+      }
+      input[type="checkbox"] {
+        &:checked~svg.fa-square {
+          display: none;
+        }
+        &:checked~svg.fa-check-square {
+          display: inline;
+        }
+      }
+      input[type="checkbox"] {
+        display: none;
+      }
+    }
+    .todo-input {
+      border: none;
+      font-size: 18px;
+      resize: none;
+      width: 100%;
+      &:focus {
+        border: none;
+        outline: none;
+      }
+    }
+  }
+
+  .todo-add-btn {
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .todo-margin-top-10 {
+    margin-top: 10px;
+  }

@@ -54,4 +54,31 @@
   :user-login-fail-on
   (fn [db [_ response]]
     (helper/show-alert db {:type    :error
-                           :message "Error"})))
+                           :message "error"})))
+
+(reg-event-fx
+  :get-user-states
+  (fn [_ _]
+    {:http-xhrio (util/create-request-map :get "/state"
+                                          :get-user-states-result-ok
+                                          :get-user-states-fail-on)}))
+
+(reg-event-db
+  :get-user-states-result-ok
+  (fn [db [_ response]]
+    (assoc db :states response)))
+
+(reg-event-db
+  :get-user-states-fail-on
+  (fn [db [_ response]]
+    (helper/show-alert db {:type    :error
+                           :message "error"})))
+
+(reg-event-fx
+  :add-todo
+  (fn [{:keys [db]} [_ id-list]]
+    {:db (update db :states conj {:id (str (random-uuid))
+                                  :title ""
+                                  :content []
+                                  :all_done false
+                                  :s_order 0})}))

@@ -7,7 +7,8 @@
    [to-do.routes :refer [app-routes]]
    [to-do.navigation.views :as views]
    [to-do.common.events]
-   [to-do.home.events]))
+   [to-do.home.events]
+   [to-do.effects]))
 
 (defn mount-root
   []
