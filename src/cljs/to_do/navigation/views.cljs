@@ -15,17 +15,25 @@
     {:on-click #(dispatch[:add-data [:visibility :login-modal?] true])}
     [:strong "Sign in"]]])
 
+(defn update-button []
+ [:p.control
+  [:a.button.is-light
+   {:on-click #(dispatch [:send-states])}
+   "Update"]])
+
 (defn user-information-view [user]
-  [:div.navbar-item.has-dropdown.is-hoverable
-   [:a.navbar-link
-    (or (:name user) "No name :)")]
-   [:div.navbar-dropdown
-    [:a.navbar-item
-     "Profile"]
-    [:hr.navbar-divider]
-    [:a.navbar-item
-     {:on-click #(dispatch [:log-out])}
-     "Log-out"]]])
+  [:<>
+   [update-button]
+   [:div.navbar-item.has-dropdown.is-hoverable
+    [:a.navbar-link
+     (or (:name user) "No name :)")]
+    [:div.navbar-dropdown
+     [:a.navbar-item
+      "Profile"]
+     [:hr.navbar-divider]
+     [:a.navbar-item
+      {:on-click #(dispatch [:log-out])}
+      "Log-out"]]]])
 
 (defn right-navbar-item []
   (let [current-user @(subscribe[:current-user])]

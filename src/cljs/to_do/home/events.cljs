@@ -1,12 +1,26 @@
 (ns to-do.home.events
  (:require [re-frame.core :refer [reg-event-fx reg-event-db]]
            [to-do.common.helper :as helper]
+           [com.rpl.specter :as sp :refer-macros [transform setval]]
            [to-do.util :as util]))
+
+(defn vector-move [coll prev-index new-index]
+  (let [items (into (subvec coll 0 prev-index)
+                    (subvec coll (inc prev-index)))]
+    (-> (subvec items 0 new-index)
+        (conj (nth coll prev-index))
+        (into (subvec items new-index)))))
+
+(defn set-state-order [states]
+ (vec (map-indexed (fn [idx itm] (assoc itm :s_order idx)) states)))
 
 (reg-event-db
   :re-balance-for-state
-  (fn [db _]
-    db))
+  (fn [db [_ old-idx new-idx]]
+    (assoc db :states 
+           (-> (:states db)
+               (vector-move old-idx new-idx)
+               (set-state-order)))))
 
 (reg-event-fx
   :user-register
@@ -74,11 +88,41 @@
     (helper/show-alert db {:type    :error
                            :message "error"})))
 
+(reg-event-db
+  :update-todo
+  (fn [db [_ id t-key t-val]]
+    (transform [:states sp/ALL #(= (:id %) id)] #(assoc % t-key t-val) db)))
+
+(reg-event-db
+  :delete-todo
+  (fn [db [_ id]]
+    (setval [:states sp/ALL #(= (:id %) id)] sp/NONE db)))
+
 (reg-event-fx
   :add-todo
   (fn [{:keys [db]} [_ id-list]]
-    {:db (update db :states conj {:id (str (random-uuid))
-                                  :title ""
-                                  :content []
-                                  :all_done false
-                                  :s_order 0})}))
+    (let [s-order (-> db :states count)]
+      {:db (update db :states conj {:id (str (random-uuid))
+                                    :title ""
+                                    :content []
+                                    :all_done false
+                                    :s_order s-order})})))
+
+(reg-event-fx
+  :send-states
+  (fn [{:keys [db]} _]
+    {:http-xhrio (merge (util/create-request-map :post "/state"
+                                          :send-states-result-ok
+                                          :send-states-fail-on)
+                        {:params (:states db)})}))
+
+(reg-event-db
+ :send-states-result-ok
+ (fn [db _]
+   (helper/show-alert db {:message "Update is success"})))
+
+(reg-event-db
+  :send-states-fail-on
+  (fn [db [_ response]]
+    (helper/show-alert db {:type    :error
+                           :message "error"})))

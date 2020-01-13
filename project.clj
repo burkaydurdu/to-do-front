@@ -14,6 +14,7 @@
                  [org.clojure/clojurescript "1.10.520"]
                  [reagent "0.8.1"]
                  [re-frame "0.10.9"]
+                 [com.rpl/specter "1.1.2"]
                  [day8.re-frame/http-fx "0.1.6"]
                  [cljs-ajax "0.8.0"]
                  [ring/ring-core "1.6.3"]

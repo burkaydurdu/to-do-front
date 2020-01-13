@@ -5,29 +5,25 @@
    [to-do.home.sortable-hoc :as sortable]
    [to-do.home.subs]
    [to-do.home.modals.register :refer [register-view]]
-   [to-do.home.modals.login :refer [login-view]]
-   ))
+   [to-do.home.modals.login :refer [login-view]]))
 
-(defn to-do-list []
-  [sortable/sortable-component
-      {}
-      (r/atom
-       [[:p "Hello"]
-        [:p "Naber"]
-        [:p "IYI"]])
-      [:re-balance-for-state]])
-
-(defn panel-checkbox [checked]
+(defn panel-checkbox [id checked]
    [:label.checkbox
     [:input
-     {:type "checkbox"}]
+     {:type "checkbox"
+      :checked checked
+      :on-change #(dispatch [:update-todo id :all_done (-> % .-target .-checked)])}]
       [:i.far.fa-check-square.fa-2x]
       [:i.far.fa-square.fa-2x]])
 
-(defn panel-input [value]
-  [:textarea.todo-input
-   {:value value
-    :placeholder "Your todo"}])
+(defn panel-input [id value]
+  (let [data (r/atom value)]
+    (fn [id value] 
+      [:textarea.todo-input
+       {:value @data
+        :on-change #(reset! data (-> % .-target .-value))
+        :on-blur #(dispatch [:update-todo id :title @data])
+        :placeholder "Your todo"}])))
 
 (defn add-todo [id-list]
   [:button.todo-add-btn
@@ -36,17 +32,21 @@
 
 (defn todo-panel [state]
   [:div.todo-main-panel.todo-margin-top-10
-   [panel-checkbox (:all_done state)]
-   [panel-input (:title state)]])
+   {:key (:id state)}
+   [panel-checkbox (:id state) (:all_done state)]
+   [panel-input (:id state) (:title state)]])
 
 (defn state-panel []
   (let [states @(subscribe [:states])]
-    [:div
-     (doall
-       (map
-         (fn [s]
-           ^{:key (:id s)}
-           [todo-panel s]) states))
+    [:<>
+     [sortable/sortable-component
+      {}
+      (r/atom
+        (vec
+          (map-indexed
+            (fn [index item]
+              [todo-panel item]) states)))
+      [:re-balance-for-state]]
      [add-todo nil]]))
 
 (defn home []
