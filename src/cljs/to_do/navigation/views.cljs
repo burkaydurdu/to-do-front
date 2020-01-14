@@ -47,34 +47,38 @@
     :aria-label "main navigation"}
    [:div.navbar-brand
     [:a.navbar-item
-     "TO-DO"]]
+   [:img 
+    {:src "img/check.png"
+     :width "78"}]]]
     [:div.navbar-end
      [:div.navbar-item
      [right-navbar-item]]]])
 
 (defn- alert-view
-  [alert]
+  []
   (r/create-class
    {:component-did-mount #(util/sleep (fn [] (dispatch [:close-alert])) 3000)
     :reagent-render      (fn []
-                           [:div.notification
+                           (let [alert @(subscribe [:alert])]
+                             [:div.notification
                             (if (= :success (:type alert))
                               {:class "is-primary"}
                               {:class "is-danger"})
                             [:button.delete
                              {:on-click #(dispatch [:add-data [:alert :show?] false])}]
-                            (:message alert)])}))
+                            (:message alert)]))}))
 
 (defn navigation-panel
-  [active-panel alert]
+  [active-panel]
   (let [[panel panel-name] active-panel]
     [:div
-     (when (:show? alert)
-       [alert-view alert]) 
+     [:<>
+      (when (:show? @(subscribe [:alert]))
+       [alert-view])] 
      [navbar-view] 
      [:div.container
      (when panel
        [panel])]]))
 
 (defn main-panel []
-  [navigation-panel @(subscribe [:active-panel]) @(subscribe [:alert])])
+  [navigation-panel @(subscribe [:active-panel])])

@@ -2,6 +2,7 @@
  (:require [re-frame.core :refer [reg-event-fx reg-event-db]]
            [to-do.common.helper :as helper]
            [com.rpl.specter :as sp :refer-macros [transform setval]]
+           [clojure.set :refer [difference]]
            [to-do.util :as util]))
 
 (defn vector-move [coll prev-index new-index]
@@ -80,7 +81,8 @@
 (reg-event-db
   :get-user-states-result-ok
   (fn [db [_ response]]
-    (assoc db :states response)))
+    (assoc db :states response
+              :coming-states response)))
 
 (reg-event-db
   :get-user-states-fail-on
@@ -111,10 +113,11 @@
 (reg-event-fx
   :send-states
   (fn [{:keys [db]} _]
-    {:http-xhrio (merge (util/create-request-map :post "/state"
+    (let [states (difference (-> db :states set) (-> db :coming-states set))]
+      {:http-xhrio (merge (util/create-request-map :post "/state"
                                           :send-states-result-ok
                                           :send-states-fail-on)
-                        {:params (:states db)})}))
+                        {:params (vec states)})})))
 
 (reg-event-db
  :send-states-result-ok
