@@ -106,23 +106,29 @@
     (let [s-order (-> db :states count)]
       {:db (update db :states conj {:id (str (random-uuid))
                                     :title ""
-                                    :content []
+                                    :content nil
                                     :all_done false
                                     :s_order s-order})})))
 
 (reg-event-fx
   :send-states
   (fn [{:keys [db]} _]
-    (let [states (difference (-> db :states set) (-> db :coming-states set))]
-      {:http-xhrio (merge (util/create-request-map :post "/state"
-                                          :send-states-result-ok
-                                          :send-states-fail-on)
-                        {:params (vec states)})})))
+    (let [create-or-update-list (difference (-> db :states set) (-> db :coming-states set))
+          delete-list  (difference (->> db :coming-states (map :id ) set) (->> db :states (map :id ) set))]
+      (when-not (and (empty? create-or-update-list)
+                     (empty? delete-list))
+        {:http-xhrio (merge (util/create-request-map :post "/state"
+                                                     :send-states-result-ok
+                                                     :send-states-fail-on)
+                            {:params {:create-or-update-list (vec create-or-update-list)
+                                      :delete-list (vec delete-list)}})}))))
 
 (reg-event-db
  :send-states-result-ok
  (fn [db _]
-   (helper/show-alert db {:message "Update is success"})))
+   (-> db
+       (assoc :coming-states (:states db)) 
+       (helper/show-alert {:message "Update is success"}))))
 
 (reg-event-db
   :send-states-fail-on

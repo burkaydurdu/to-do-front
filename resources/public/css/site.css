@@ -22,6 +22,16 @@
 .todo-main-panel {
   display: flex;
 }
+.todo-main-panel .markdown-preview-box {
+  width: 100%;
+}
+.todo-main-panel .delete-button-box {
+  opacity: 0;
+  padding: 10px;
+}
+.todo-main-panel .delete-button-box:hover {
+  opacity: 1;
+}
 .todo-main-panel label.checkbox {
   margin-right: 10px;
 }

@@ -19,6 +19,7 @@
                  [cljs-ajax "0.8.0"]
                  [ring/ring-core "1.6.3"]
                  [ring/ring-jetty-adapter "1.6.3"]
+                 [markdown-to-hiccup "0.6.2"]
                  [clj-commons/secretary "1.2.4"]]
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-less "1.7.5"]

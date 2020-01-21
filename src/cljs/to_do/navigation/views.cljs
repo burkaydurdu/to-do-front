@@ -47,11 +47,11 @@
     :aria-label "main navigation"}
    [:div.navbar-brand
     [:a.navbar-item
-   [:img 
-    {:src "img/check.png"
-     :width "78"}]]]
-    [:div.navbar-end
-     [:div.navbar-item
+     [:img 
+      {:src "img/check.png"
+       :width "100"}]]]
+   [:div.navbar-end
+    [:div.navbar-item
      [right-navbar-item]]]])
 
 (defn- alert-view
