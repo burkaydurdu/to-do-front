@@ -8,11 +8,11 @@
    (:active-panel db)))
 
 (reg-sub
-  :alert
-  (fn [db _]
-    (:alert db)))
-
-(reg-sub
   :current-user
   (fn [db]
     (:current-user db)))
+
+(reg-sub
+  :visibility
+  (fn [db]
+    (:visibility db)))

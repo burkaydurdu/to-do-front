@@ -3,82 +3,80 @@
    [reagent.core :as r]
    [re-frame.core :refer [dispatch subscribe]]
    [to-do.navigation.subs]
-   [to-do.util :as util]))
-
+   [to-do.util :as util]
+   [to-do.home.modals.register :refer [register-view]]
+   [to-do.home.modals.login :refer [login-view]]
+   [antizer.reagent :as ant]))
 
 (defn sign-up-in-views []
-  [:div.buttons
-   [:a.button.is-primary
-    {:on-click #(dispatch[:add-data [:visibility :register-modal?] true])}
-    [:strong "Sign up"]]
-   [:a.button.is-light
-    {:on-click #(dispatch[:add-data [:visibility :login-modal?] true])}
-    [:strong "Sign in"]]])
-
-(defn update-button []
- [:p.control
-  [:a.button.is-light
-   {:on-click #(dispatch [:send-states])}
-   "Update"]])
-
-(defn user-information-view [user]
   [:<>
-   [update-button]
-   [:div.navbar-item.has-dropdown.is-hoverable
-    [:a.navbar-link
-     (or (:name user) "No name :)")]
-    [:div.navbar-dropdown
-     [:a.navbar-item
-      "Profile"]
-     [:hr.navbar-divider]
-     [:a.navbar-item
-      {:on-click #(dispatch [:log-out])}
-      "Log-out"]]]])
+   [:li
+    [:a.modal-trigger
+     {:href "#register-modal"}
+     [:strong 
+      "Sign up"]]]
+   [:li
+    [:a.modal-trigger
+     {:href "#login-modal"}
+     [:strong 
+      "Sign in"]]]])
 
-(defn right-navbar-item []
-  (let [current-user @(subscribe[:current-user])]
+(defn user-menu []
+  [ant/menu
+   [ant/menu-item
+    {:on-click #()}
+    [:a "Profile"]]
+   [ant/divider]
+   [ant/menu-item
+    {:on-click #(dispatch [:log-out])}
+    [:a "Logout"]]])
+
+(defn user-menu-view [current-user]
+  [ant/dropdown
+   {:overlay (r/as-element (user-menu))
+    :class "ant-dropdown-link"}
+   [:a 
+    (or (:name current-user) "no name")
+    [:i.fa.fa-angle-down]]])
+
+(defn right-navbar-item [current-user]
+  [:div.right-box
    (if current-user
-     [user-information-view current-user]
-     [sign-up-in-views])))
+     [user-menu-view current-user]
+     [sign-up-in-views])])
 
-(defn navbar-view []
-  [:nav.navbar
-   {:role "navigation"
-    :aria-label "main navigation"}
-   [:div.navbar-brand
-    [:a.navbar-item
-     [:img 
-      {:src "img/check.png"
-       :width "100"}]]]
-   [:div.navbar-end
-    [:div.navbar-item
-     [right-navbar-item]]]])
+(defn brand-view []
+  [:a
+   [:img 
+    {:src "img/check.png"
+     :height "64"}]])
 
-(defn- alert-view
-  []
-  (r/create-class
-   {:component-did-mount #(util/sleep (fn [] (dispatch [:close-alert])) 3000)
-    :reagent-render      (fn []
-                           (let [alert @(subscribe [:alert])]
-                             [:div.notification
-                            (if (= :success (:type alert))
-                              {:class "is-primary"}
-                              {:class "is-danger"})
-                            [:button.delete
-                             {:on-click #(dispatch [:add-data [:alert :show?] false])}]
-                            (:message alert)]))}))
+(defn navbar-view [current-user]
+  [:nav.todo-navbar
+   [:div.nav-wrapper
+    [brand-view]
+    [right-navbar-item current-user]]])
+
+(defn modal-view []
+  (let [visibility @(subscribe [:visibility])]
+    [:div
+     (when (:login-modal? visibility)
+       [login-view])
+     (when (:register-modal? visibility)
+       [register-view])]))
 
 (defn navigation-panel
-  [active-panel]
+  [active-panel current-user]
   (let [[panel panel-name] active-panel]
     [:div
-     [:<>
-      (when (:show? @(subscribe [:alert]))
-       [alert-view])] 
-     [navbar-view] 
+     [modal-view]
+     [navbar-view current-user]
      [:div.container
-     (when panel
-       [panel])]]))
+      (cond
+        (and (= :home panel-name) (util/not-nil? current-user)) [panel])]]))
 
 (defn main-panel []
-  [navigation-panel @(subscribe [:active-panel])])
+  (r/create-class
+    {:reagent-render
+     (fn []
+       [navigation-panel @(subscribe [:active-panel]) @(subscribe [:current-user])])}))

@@ -1,3 +1,25 @@
+.todo-navbar {
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+}
+.todo-navbar .nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.todo-navbar .right-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  color: #000000;
+}
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
 .to-do-modal-body {
   width: 100%;
   height: 100%;
@@ -21,9 +43,14 @@
 }
 .todo-main-panel {
   display: flex;
+  justify-content: center;
 }
 .todo-main-panel .markdown-preview-box {
   width: 100%;
+}
+.todo-main-panel .markdown-preview-box p {
+  font-size: 18px;
+  line-height: 1.10em;
 }
 .todo-main-panel .delete-button-box {
   opacity: 0;
@@ -32,29 +59,14 @@
 .todo-main-panel .delete-button-box:hover {
   opacity: 1;
 }
-.todo-main-panel label.checkbox {
-  margin-right: 10px;
-}
-.todo-main-panel label.checkbox input[type="checkbox"] ~ svg.fa-square {
-  display: inline;
-}
-.todo-main-panel label.checkbox input[type="checkbox"] ~ svg.fa-check-square {
-  display: none;
-}
-.todo-main-panel label.checkbox input[type="checkbox"]:checked ~ svg.fa-square {
-  display: none;
-}
-.todo-main-panel label.checkbox input[type="checkbox"]:checked ~ svg.fa-check-square {
-  display: inline;
-}
-.todo-main-panel label.checkbox input[type="checkbox"] {
-  display: none;
-}
 .todo-main-panel .todo-input {
   border: none;
   font-size: 18px;
   resize: none;
   width: 100%;
+  min-height: 30px;
+  overflow: auto;
+  line-height: 1.10em;
 }
 .todo-main-panel .todo-input:focus {
   border: none;
@@ -71,4 +83,9 @@
 }
 .todo-margin-top-10 {
   margin-top: 10px;
+}
+.markdown-box * {
+  margin: 0;
+  padding: 0;
+  word-break: break-word;
 }

@@ -3,8 +3,13 @@
             [re-frame.core :refer [subscribe dispatch]]
             [ajax.core :as ajax]))
 
-
 (goog-define api-url "http://localhost:3011")
+
+(def not-nil? (complement nil?))
+
+(def not-empty? (complement empty?))
+
+(def not-blank? (complement str/blank?))
 
 (defn email?
   [email]
@@ -68,3 +73,9 @@
 (defn remove-item!
   [key]
   (remove-items! [key]))
+
+(defn alert-view [opt]
+  (.toast js/M (clj->js {:html (:message opt)
+                         :classes (if (:error? opt)
+                                    "red white-text"
+                                    "green white-text")})))

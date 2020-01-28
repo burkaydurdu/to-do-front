@@ -4,31 +4,27 @@
             [clojure.string :as str]
             [to-do.util :as util]))
 
-(defn input-field [type value event ph] 
-   [:div.control
-    [:input.input.is-medium
-     {:type type
-      :placeholder ph
+(defn input-field [id type value event ph] 
+   [:<>
+    [:input.validate
+     {:id id
+      :type type
       :value value
-      :on-change event}]])
+      :on-change event}]
+    [:label
+     {:for id}
+     ph]])
 
 (defn select-gender [value]
-  [:div.control.has-icons-left
-   [:div.select.is-medium
-    [:select
-     {:on-change #(dispatch [:add-data [:register-form :gender] (-> % .-target .-value)])}
-     [:option 
-      {:disabled true
-       :selected true}
-      "Select your gender"]
-     [:option 
-      {:value "famela"}
-      "Famela"]
-     [:option
-      {:value "male"}
-      "Male"]]]
-   [:span.icon.is-left
-    [:i.fa.fa-venus-mars]]])
+  [:<>
+   [:select
+    {:on-change #(dispatch [:add-data [:register-form :gender] (-> % .-target .-value)])}
+    [:option
+     {:selected "selected", :disabled "disabled", :value ""}
+     "Choose your gender"]
+    [:option {:value "famela"} "Famela"]
+    [:option {:value "male"} "Male"]]
+   [:label "Gender"]])
 
 (defn register-form-control [register-form]
  (and (= (count register-form) 5)
@@ -36,44 +32,46 @@
       (util/email? (:email register-form))
       (= (:password register-form) (:password-conf register-form))))
 
-(defn register-body-view 
-  []
-  (let [register-form @(subscribe[:register-form])]
-    [:article.panel.is-primary
-     [:p.panel-heading "Sign-up"]
-     [:div.panel-block.to-do-modal-body
-      [:div.field
-       [input-field "text" (:name register-form)
-                    #(dispatch [:add-data [:register-form :name] 
-                                (-> % .-target .-value)]) "Name"]
-       [input-field "text" (:email register-form)
-                    #(dispatch [:add-data [:register-form :email] 
-                                (-> % .-target .-value)]) "Email"]
-       [input-field "password" (:password register-form)
-                    #(dispatch [:add-data [:register-form :password] 
-                                (-> % .-target .-value)]) "Password"] 
-       [input-field "password" (:password-conf register-form)
-                    #(dispatch [:add-data [:register-form :password-conf] 
-                                (-> % .-target .-value)]) "Confirm password"]
-       [select-gender (:gender register-form)]
-       [:div.buttons.is-right
-        [:button.button.is-primary
-        {:disabled (not (register-form-control register-form))
-         :on-click #(dispatch [:user-register])} "Sign-up"]]]]]))
+(defn register-body-view [register-form]
+  [:<>
+   [:h4 "Sign-up"]
+   [:div.row
+    [:div.input-field.col-l12
+     [input-field "signup_name_field" "text" (:name register-form)
+      #(dispatch [:add-data [:register-form :name] 
+                  (-> % .-target .-value)]) "Name"]]
 
+    [:div.input-field.col-l12
+     [input-field "signup_email_field" "text" (:email register-form)
+      #(dispatch [:add-data [:register-form :email] 
+                  (-> % .-target .-value)]) "Email"]]
+
+    [:div.input-field.col-l12
+     [input-field "signup_password_field" "password" (:password register-form)
+      #(dispatch [:add-data [:register-form :password] 
+                  (-> % .-target .-value)]) "Password"]]
+
+    [:div.input-field.col-l12
+     [input-field "signup_password_conf_field" "password" (:password-conf register-form)
+      #(dispatch [:add-data [:register-form :password-conf] 
+                  (-> % .-target .-value)]) "Confirm password"]]
+
+    [:div.input-field.col-l12
+     [select-gender (:gender register-form)]]]])
 
 (defn exit-register-modal []
   (util/dispatch-n [:add-data [:visibility :register-modal?] false]
                    [:reset-in [:register-form]]))
 
-(defn register-view
-  []
+(defn register-view []
   (r/create-class
-    {:reagent-render      (fn []
-                            [:div.modal.is-active
-                             [:div.modal-background
-                              {:on-click #(exit-register-modal)}]
-                             [:div.modal-content
-                              [register-body-view]]
-                             [:button.modal-close.is-large
-                              {:on-click #(exit-register-modal)}]])}))
+    {:reagent-render (fn []
+                       (let [register-form @(subscribe[:register-form])]
+                         [:div#register-modal.modal
+                          [:div.modal-content
+                           [register-body-view register-form]]
+                          [:div.modal-footer
+                           [:a.modal-close.modal-close.waves-effect.waves-green.btn-flat
+                            {:on-click #(when (register-form-control register-form)
+                                          (dispatch [:user-register]))}
+                            "Sign-up"]]]))}))

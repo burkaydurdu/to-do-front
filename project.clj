@@ -20,6 +20,8 @@
                  [ring/ring-core "1.6.3"]
                  [ring/ring-jetty-adapter "1.6.3"]
                  [markdown-to-hiccup "0.6.2"]
+                 [antizer-latest "0.1.0"]
+                 [cljsjs/moment "2.24.0-0"]
                  [clj-commons/secretary "1.2.4"]]
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-less "1.7.5"]

@@ -2,51 +2,65 @@
   (:require
    [reagent.core :as r]
    [re-frame.core :refer [dispatch subscribe]]
+   [goog.dom :as dom]
    [to-do.home.sortable-hoc :as sortable]
    [to-do.home.subs]
-   [to-do.home.modals.register :refer [register-view]]
-   [to-do.home.modals.login :refer [login-view]]
    [to-do.common.views :refer [markdown-view]]))
 
 (defn panel-checkbox [id checked]
-   [:label.checkbox
+   [:label
     [:input
      {:type "checkbox"
       :checked checked
       :on-change #(dispatch [:update-todo id :all_done (-> % .-target .-checked)])}]
-      [:i.far.fa-check-square.fa-2x]
-      [:i.far.fa-square.fa-2x]])
+    [:span]])
 
-(defn panel-input [id value]
+(defn input-view [id data open?]
+  (r/create-class 
+    {:component-did-mount #(some-> id dom/getElement .focus)
+     :reagent-render (fn []
+                       [:textarea.todo-input
+                        {:id id
+                         :value @data
+                         :on-focus  #(when-let [element (some-> id dom/getElement)]
+                                       (.setSelectionRange element (count @data) (count @data))
+                                       (set! (-> element .-style .-height) (str (.-scrollHeight element) "px")))
+                         :on-key-press #(when-let [element (some-> id dom/getElement)]
+                                          (set! (-> element .-style .-height) (str (.-scrollHeight element) "px")))
+                         :on-change #(reset! data (-> % .-target .-value))
+                         :on-blur #(do (reset! open? false)
+                                       (dispatch [:update-todo id :title @data]))
+                         :placeholder "Your todo"}])}))
+
+(defn todo-preview [data open?]
+  [:div.markdown-preview-box
+   {:on-click #(reset! open? true)}
+   [:div.markdown-box 
+    [markdown-view @data]]])
+
+(defn panel-todo [id value]
   (let [data  (r/atom value)
-        open? (r/atom false)]
-    (fn [id value] 
+        open? (r/atom true)]
+    (fn [id value]
       (if @open?
-        [:textarea.todo-input
-         {:value @data
-          :on-change #(reset! data (-> % .-target .-value))
-          :on-blur #(do (reset! open? false)
-                        (dispatch [:update-todo id :title @data]))
-          :placeholder "Your todo"}]
-        [:div.markdown-preview-box
-         {:on-click #(reset! open? true)}
-         [markdown-view @data]]))))
+        [input-view id data open?]
+        [todo-preview data open?]))))
 
 (defn add-todo [id-list]
   [:button.todo-add-btn
    {:on-click #(dispatch [:add-todo id-list])}
-   [:i.far.fa-plus-square.fa-3x]])
+   [:i.material-icons "add"]])
 
 (defn delete-btn [id]
-  [:div.delete-button-box
-   [:a.delete
-    {:on-click #(dispatch [:delete-todo id])}]])
+   [:button.todo-add-btn
+    {:on-click #(dispatch [:delete-todo id])}
+    [:i.material-icons "delete_forever"]])
 
 (defn todo-panel [state]
   [:div.todo-main-panel.todo-margin-top-10
    {:key (:id state)}
    [panel-checkbox (:id state) (:all_done state)]
-   [panel-input (:id state) (:title state)]
+   [panel-todo (:id state) (:title state)]
    [delete-btn (:id state)]])
 
 (defn state-panel []
@@ -63,17 +77,10 @@
      [add-todo nil]]))
 
 (defn home []
-  (let [current-user @(subscribe [:current-user])]
-    (r/create-class
-      {:component-did-mount #(when current-user
-                               (dispatch [:get-user-states]))
-       :reagent-render (fn []
-                         (let [visibility @(subscribe [:visibility])]
-                           [:div 
-                            (when current-user
-                              [state-panel])
-                            (when (:register-modal? visibility)
-                              [register-view])
-                            (when (:login-modal? visibility)
-                              [login-view])]))})))
+  (r/create-class
+    {:component-did-mount #(dispatch [:get-user-states])
+     :reagent-render (fn []
+                       (let [visibility @(subscribe [:visibility])]
+                         [:div 
+                          [state-panel]]))}))
 

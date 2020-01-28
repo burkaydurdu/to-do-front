@@ -1,6 +1,5 @@
 (ns to-do.home.events
  (:require [re-frame.core :refer [reg-event-fx reg-event-db]]
-           [to-do.common.helper :as helper]
            [com.rpl.specter :as sp :refer-macros [transform setval]]
            [clojure.set :refer [difference]]
            [to-do.util :as util]))
@@ -32,19 +31,18 @@
                                                    :user-register-fail-on)
                           {:params (dissoc register-form :password-conf)})})))
 
-(reg-event-db
+(reg-event-fx
   :user-register-result-ok
-  (fn [db _]
-    (-> db 
-        (helper/show-alert {:message "Success"})
-        (assoc-in [:visibility :register-modal?] false)
-        (dissoc :register-form))))
+  (fn [{:keys [db]} _]
+    {:start-alert! {:message "Register is success"}
+     :db (-> db 
+             (assoc-in [:visibility :register-modal?] false)
+             (dissoc :register-form))}))
 
-(reg-event-db
+(reg-event-fx
   :user-register-fail-on
-  (fn [db [_ response]]
-    (helper/show-alert db {:type    :error
-                           :message "Error"})))
+  (fn [_ [_ response]]
+    {:start-alert! {:message "Error" :error? true}}))
 
 (reg-event-fx
   :user-login
@@ -59,17 +57,15 @@
   :user-login-result-ok
   (fn [{:keys [db]} [_ response]]
     {:set-current-user! response
+     :start-alert! {:message (str "Wellcome " (:name response))}
      :db (-> db
-             (helper/show-alert {:message "Success"})
              (assoc :current-user response)
-             (assoc-in [:visibility :login-modal?] false)
              (dissoc :login-form))}))
 
-(reg-event-db
+(reg-event-fx
   :user-login-fail-on
-  (fn [db [_ response]]
-    (helper/show-alert db {:type    :error
-                           :message "error"})))
+  (fn [_ [_ response]]
+    {:start-alert! {:message "Error" :error? true}}))
 
 (reg-event-fx
   :get-user-states
@@ -84,11 +80,10 @@
     (assoc db :states response
               :coming-states response)))
 
-(reg-event-db
+(reg-event-fx
   :get-user-states-fail-on
-  (fn [db [_ response]]
-    (helper/show-alert db {:type    :error
-                           :message "error"})))
+  (fn [_ [_ response]]
+    {:start-alert! {:message "Error" :error? true}}))
 
 (reg-event-db
   :update-todo
@@ -123,15 +118,13 @@
                             {:params {:create-or-update-list (vec create-or-update-list)
                                       :delete-list (vec delete-list)}})}))))
 
-(reg-event-db
- :send-states-result-ok
- (fn [db _]
-   (-> db
-       (assoc :coming-states (:states db)) 
-       (helper/show-alert {:message "Update is success"}))))
+(reg-event-fx
+  :send-states-result-ok
+  (fn [{:keys [db]} _]
+    {:start-alert! {:message "Update is success"}
+     :db (assoc db :coming-states (:states db))}))
 
-(reg-event-db
+(reg-event-fx
   :send-states-fail-on
-  (fn [db [_ response]]
-    (helper/show-alert db {:type    :error
-                           :message "error"})))
+  (fn [_ [_ response]]
+    {:start-alert! {:message "Error" :error? true}}))

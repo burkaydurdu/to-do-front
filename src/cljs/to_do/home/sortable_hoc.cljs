@@ -19,7 +19,7 @@
     (fn [item]
       (let [i (:children (js->clj item :keywordize-keys true))]
         (r/as-component
-         [:i i]))))))
+         [:div i]))))))
 
 (def sortable-item
   (r/adapt-react-class

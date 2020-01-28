@@ -1,81 +1,103 @@
-  .to-do-modal-body {
+@primary-color: #FFF;
+@black: #000;
+.todo-navbar {
+  width: 100%;
+  height: 50px;
+  background-color: @primary-color;
+  .nav-wrapper {
     width: 100%;
-    height: 100%;
-    background: #FFF;
-    .field {
-      width: 100%;
-      .control {
-        margin-bottom: 10px;
-      }
-    }
-  }
-
-  .notification {
-    width: 30%;
-    z-index: 50;
-    position: absolute !important;
-    top: 5px;
-    right: 5px;
-  }
-
-  .modal-content {
-    overflow: visible !important;
-  }
-
-  .todo-main-panel {
     display: flex;
-    .markdown-preview-box {
-      width: 100%;
-    }
-    .delete-button-box {
-      opacity: 0;
-      padding: 10px;
-      &:hover {
-        opacity: 1;
-      }
-    }
-    label.checkbox {
-      margin-right: 10px;
-      input[type="checkbox"]~svg.fa-square {
-        display: inline;
-      }
-      input[type="checkbox"]~svg.fa-check-square {
-        display: none;
-      }
-      input[type="checkbox"] {
-        &:checked~svg.fa-square {
-          display: none;
-        }
-        &:checked~svg.fa-check-square {
-          display: inline;
-        }
-      }
-      input[type="checkbox"] {
-        display: none;
-      }
-    }
-    .todo-input {
-      border: none;
-      font-size: 18px;
-      resize: none;
-      width: 100%;
-      &:focus {
-        border: none;
-        outline: none;
-      }
+    justify-content: space-between
+  }
+  .right-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    color: @black;
+  }
+}
+
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.to-do-modal-body {
+  width: 100%;
+  height: 100%;
+  background: #FFF;
+  .field {
+    width: 100%;
+    .control {
+      margin-bottom: 10px;
     }
   }
+}
 
-  .todo-add-btn {
+.notification {
+  width: 30%;
+  z-index: 50;
+  position: absolute !important;
+  top: 5px;
+  right: 5px;
+}
+
+.modal-content {
+  overflow: visible !important;
+}
+
+.todo-main-panel {
+  display: flex;
+  justify-content: center;
+  .markdown-preview-box {
+    width: 100%;
+    p {
+      font-size: 18px;
+      line-height: 1.10em;
+    }
+  }
+  .delete-button-box {
+    opacity: 0;
+    padding: 10px;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .todo-input {
     border: none;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
+    font-size: 18px;
+    resize: none;
+    width: 100%;
+    min-height: 30px;
+    overflow: auto;
+    line-height: 1.10em;
     &:focus {
+      border: none;
       outline: none;
     }
   }
+}
 
-  .todo-margin-top-10 {
-    margin-top: 10px;
+.todo-add-btn {
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  &:focus {
+    outline: none;
   }
+}
+
+.todo-margin-top-10 {
+  margin-top: 10px;
+}
+
+.markdown-box {
+  * {
+    margin: 0;
+    padding: 0;
+    word-break: break-word;
+  }
+}

@@ -20,3 +20,8 @@
  :reset-in
  (fn [db [_ ks]]
    (util/dissoc-in db ks)))
+
+(reg-event-fx
+  :focus-by-id
+  (fn [_ [_ id]]
+    {:focus-by-id! id}))
