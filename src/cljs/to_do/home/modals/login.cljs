@@ -10,7 +10,8 @@
    {:id id
     :type type
     :value value
-    :on-change event}])
+    :on-change event
+    :placeholder ph}])
 
 (defn login-form-control [login-form]
  (and (= (count login-form) 2)
@@ -19,7 +20,7 @@
 
 (defn login-body-view [login-form]
    [:div
-    [:div
+    [:div.margin-bottom-10
      [input-field "signin_email_field" "text" (:email login-form)
       #(dispatch [:add-data [:login-form :email] 
                   (-> % .-target .-value)]) "Email"]]
@@ -39,5 +40,8 @@
                          [ant/modal
                           {:title "Login"
                            :visible true
-                           :onCancel #(exit-login-modal)}
+                           :onCancel #(exit-login-modal)
+                           :onOk #(when (login-form-control login-form)
+                                    (dispatch [:user-login]))
+                           :okText "Sign-in"}
                            [login-body-view login-form]]))}))

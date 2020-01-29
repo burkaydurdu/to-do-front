@@ -1,12 +1,79 @@
+@-moz-keyframes dothabottomcheck {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 15px;
+  }
+}
+@-webkit-keyframes dothabottomcheck {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 15px;
+  }
+}
+@keyframes dothabottomcheck {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 15px;
+  }
+}
+@keyframes dothatopcheck {
+  0% {
+    height: 0;
+  }
+  50% {
+    height: 0;
+  }
+  100% {
+    height: 36px;
+  }
+}
+@-webkit-keyframes dothatopcheck {
+  0% {
+    height: 0;
+  }
+  50% {
+    height: 0;
+  }
+  100% {
+    height: 36px;
+  }
+}
+@-moz-keyframes dothatopcheck {
+  0% {
+    height: 0;
+  }
+  50% {
+    height: 0;
+  }
+  100% {
+    height: 36px;
+  }
+}
 .todo-navbar {
   width: 100%;
   height: 50px;
-  background-color: #ffffff;
+  background-color: #0facf3;
 }
 .todo-navbar .nav-wrapper {
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
+}
+.todo-navbar .nav-wrapper a {
+  color: #ffffff;
+}
+.todo-navbar .nav-wrapper .todo-navbar-logo {
+  height: 100%;
+}
+.todo-navbar .nav-wrapper .todo-navbar-logo img {
+  height: 100%;
 }
 .todo-navbar .right-box {
   display: flex;
@@ -72,6 +139,90 @@
   border: none;
   outline: none;
 }
+.todo-main-panel .checkbox-container {
+  display: inline-block;
+  margin-right: 20px;
+}
+.todo-main-panel input[type=checkbox] {
+  display: none;
+}
+.todo-main-panel .check-box {
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  border: 3px solid #000000;
+  border-radius: 5px;
+  position: relative;
+  display: inline-block;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: border-color ease 0.2s;
+  -o-transition: border-color ease 0.2s;
+  -webkit-transition: border-color ease 0.2s;
+  transition: border-color ease 0.2s;
+  cursor: pointer;
+}
+.todo-main-panel .check-box::before,
+.todo-main-panel .check-box::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: absolute;
+  height: 0;
+  width: 6px;
+  background-color: #34b93d;
+  display: inline-block;
+  -moz-transform-origin: left top;
+  -ms-transform-origin: left top;
+  -o-transform-origin: left top;
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+  border-radius: 5px;
+  content: ' ';
+  -webkit-transition: opacity ease .5;
+  -moz-transition: opacity ease .5;
+  transition: opacity ease .5;
+}
+.todo-main-panel .check-box::before {
+  top: 21.6px;
+  left: 12.3px;
+  box-shadow: 0 0 0 1.5px #ffffff;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+.todo-main-panel .check-box::after {
+  top: 11.1px;
+  left: 1.5px;
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.todo-main-panel input[type=checkbox]:checked + .check-box,
+.todo-main-panel .check-box.checked {
+  border-color: #34b93d;
+}
+.todo-main-panel input[type=checkbox]:checked + .check-box::after,
+.todo-main-panel .check-box.checked::after {
+  height: 15px;
+  -moz-animation: dothabottomcheck 0.2s ease 0s forwards;
+  -o-animation: dothabottomcheck 0.2s ease 0s forwards;
+  -webkit-animation: dothabottomcheck 0.2s ease 0s forwards;
+  animation: dothabottomcheck 0.2s ease 0s forwards;
+}
+.todo-main-panel input[type=checkbox]:checked + .check-box::before,
+.todo-main-panel .check-box.checked::before {
+  height: 36px;
+  -moz-animation: dothatopcheck 0.4s ease 0s forwards;
+  -o-animation: dothatopcheck 0.4s ease 0s forwards;
+  -webkit-animation: dothatopcheck 0.4s ease 0s forwards;
+  animation: dothatopcheck 0.4s ease 0s forwards;
+}
 .todo-add-btn {
   border: none;
   cursor: pointer;
@@ -88,4 +239,13 @@
   margin: 0;
   padding: 0;
   word-break: break-word;
+}
+.margin-right-10 {
+  margin-right: 10px;
+}
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+.margin-left-5 {
+  margin-left: 5px;
 }

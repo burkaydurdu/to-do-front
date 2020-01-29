@@ -21,5 +21,4 @@
 (reg-fx
   :start-alert!
   (fn [opt]
-    (util/alert-view opt)))
-
+    (util/alert-action (:message opt) (:error? opt))))

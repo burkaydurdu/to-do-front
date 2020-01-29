@@ -1,6 +1,7 @@
 (ns to-do.util
   (:require [clojure.string :as str]
             [re-frame.core :refer [subscribe dispatch]]
+            [antizer.reagent :as ant]
             [ajax.core :as ajax]))
 
 (goog-define api-url "http://localhost:3011")
@@ -74,8 +75,6 @@
   [key]
   (remove-items! [key]))
 
-(defn alert-view [opt]
-  (.toast js/M (clj->js {:html (:message opt)
-                         :classes (if (:error? opt)
-                                    "red white-text"
-                                    "green white-text")})))
+(defn alert-action [message error?]
+  (ant/notification-open {:type (if error? "error" "success")
+                          :description message}))

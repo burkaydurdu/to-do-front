@@ -60,6 +60,7 @@
      :start-alert! {:message (str "Wellcome " (:name response))}
      :db (-> db
              (assoc :current-user response)
+             (assoc :visibility :login-modal? false)
              (dissoc :login-form))}))
 
 (reg-event-fx

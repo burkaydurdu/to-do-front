@@ -9,24 +9,21 @@
    [antizer.reagent :as ant]))
 
 (defn sign-up-in-views []
-  [:<>
-   [:li
-    [:a.modal-trigger
-     {:href "#register-modal"}
+  [:div
+    [:a.margin-right-10
+     {:on-click #(dispatch [:add-data [:visibility :register-modal?] true])}
      [:strong 
-      "Sign up"]]]
-   [:li
-    [:a.modal-trigger
-     {:href "#login-modal"}
+      "Sign up"]]
+    [:a
+     {:on-click #(dispatch [:add-data [:visibility :login-modal?] true])}
      [:strong 
-      "Sign in"]]]])
+      "Sign in"]]])
 
 (defn user-menu []
   [ant/menu
    [ant/menu-item
     {:on-click #()}
     [:a "Profile"]]
-   [ant/divider]
    [ant/menu-item
     {:on-click #(dispatch [:log-out])}
     [:a "Logout"]]])
@@ -35,9 +32,9 @@
   [ant/dropdown
    {:overlay (r/as-element (user-menu))
     :class "ant-dropdown-link"}
-   [:a 
+   [:a.ant-dropdown-link 
     (or (:name current-user) "no name")
-    [:i.fa.fa-angle-down]]])
+    [:i.fa.fa-angle-down.margin-left-5]]])
 
 (defn right-navbar-item [current-user]
   [:div.right-box
@@ -46,10 +43,9 @@
      [sign-up-in-views])])
 
 (defn brand-view []
-  [:a
+  [:a.todo-navbar-logo
    [:img 
-    {:src "img/check.png"
-     :height "64"}]])
+    {:src "img/check.png"}]])
 
 (defn navbar-view [current-user]
   [:nav.todo-navbar

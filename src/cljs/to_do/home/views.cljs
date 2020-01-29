@@ -8,12 +8,15 @@
    [to-do.common.views :refer [markdown-view]]))
 
 (defn panel-checkbox [id checked]
-   [:label
+   [:div.checkbox-container
     [:input
-     {:type "checkbox"
+     {:id   (str "checkbox-" id)
+      :type "checkbox"
       :checked checked
       :on-change #(dispatch [:update-todo id :all_done (-> % .-target .-checked)])}]
-    [:span]])
+    [:label
+     {:for (str "checkbox-" id)
+      :class "check-box"}]])
 
 (defn input-view [id data open?]
   (r/create-class 
