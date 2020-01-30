@@ -61,10 +61,21 @@
      (when (:register-modal? visibility)
        [register-view])]))
 
+(defn update-todo-button []
+  (let [update-data? @(subscribe[:update-data-available?])]
+   (when update-data?
+    [:div.todo-update-button
+     [ant/button
+      {:shape "circle"
+       :icon "cloud"
+       :size "large"
+       :on-click #(dispatch [:send-states])}]])))
+
 (defn navigation-panel
   [active-panel current-user]
   (let [[panel panel-name] active-panel]
     [:div
+     [update-todo-button]
      [modal-view]
      [navbar-view current-user]
      [:div.container

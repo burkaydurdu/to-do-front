@@ -26,14 +26,15 @@
    (sortable-element
     (r/reactify-component
      (fn [{:keys [value]}]
-       [:li {:style {:list-style-type "none"}} [drag-handle value]])))))
+       [:div
+        [drag-handle value]])))))
 
 (def sortable-list
   (r/adapt-react-class
    (sortable-container
     (r/reactify-component
      (fn [{:keys [items] :as m}]
-       [:ul
+       [:div
         (for [[item index] (map vector items (range))]
           [sortable-item {:key   (str "item-" index)
                           :index index

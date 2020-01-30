@@ -5,7 +5,9 @@
    [goog.dom :as dom]
    [to-do.home.sortable-hoc :as sortable]
    [to-do.home.subs]
-   [to-do.common.views :refer [markdown-view]]))
+   [antizer.reagent :as ant]
+   [to-do.common.views :refer [markdown-view]]
+   [clojure.string :as str]))
 
 (defn panel-checkbox [id checked]
    [:div.checkbox-container
@@ -39,7 +41,9 @@
   [:div.markdown-preview-box
    {:on-click #(reset! open? true)}
    [:div.markdown-box 
-    [markdown-view @data]]])
+    [markdown-view (if (str/blank? @data)
+                     "Your todo"
+                     @data)]]])
 
 (defn panel-todo [id value]
   (let [data  (r/atom value)
@@ -50,17 +54,22 @@
         [todo-preview data open?]))))
 
 (defn add-todo [id-list]
-  [:button.todo-add-btn
-   {:on-click #(dispatch [:add-todo id-list])}
-   [:i.material-icons "add"]])
+  [ant/button
+   {:shape "circle"
+    :icon "plus"
+    :type "info"
+    :class "margin-top-10"
+    :on-click #(dispatch [:add-todo id-list])}])
 
 (defn delete-btn [id]
-   [:button.todo-add-btn
-    {:on-click #(dispatch [:delete-todo id])}
-    [:i.material-icons "delete_forever"]])
+   [ant/button
+    {:shape "circle"
+     :icon "delete"
+     :type "danger"
+     :on-click #(dispatch [:delete-todo id])}])
 
 (defn todo-panel [state]
-  [:div.todo-main-panel.todo-margin-top-10
+  [:div.todo-main-panel.margin-top-10.margin-bottom-10
    {:key (:id state)}
    [panel-checkbox (:id state) (:all_done state)]
    [panel-todo (:id state) (:title state)]

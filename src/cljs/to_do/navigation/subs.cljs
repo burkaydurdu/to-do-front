@@ -16,3 +16,8 @@
   :visibility
   (fn [db]
     (:visibility db)))
+
+(reg-sub
+  :update-data-available?
+  (fn [db]
+    (not= (:states db) (:coming-states db))))

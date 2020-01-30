@@ -3,7 +3,7 @@
     height: 0;
   }
   100% {
-    height: 15px;
+    height: 16px;
   }
 }
 @-webkit-keyframes dothabottomcheck {
@@ -11,7 +11,7 @@
     height: 0;
   }
   100% {
-    height: 15px;
+    height: 16px;
   }
 }
 @keyframes dothabottomcheck {
@@ -19,7 +19,7 @@
     height: 0;
   }
   100% {
-    height: 15px;
+    height: 16px;
   }
 }
 @keyframes dothatopcheck {
@@ -30,7 +30,7 @@
     height: 0;
   }
   100% {
-    height: 36px;
+    height: 38.4px;
   }
 }
 @-webkit-keyframes dothatopcheck {
@@ -41,7 +41,7 @@
     height: 0;
   }
   100% {
-    height: 36px;
+    height: 38.4px;
   }
 }
 @-moz-keyframes dothatopcheck {
@@ -52,7 +52,7 @@
     height: 0;
   }
   100% {
-    height: 36px;
+    height: 38.4px;
   }
 }
 .todo-navbar {
@@ -147,10 +147,10 @@
   display: none;
 }
 .todo-main-panel .check-box {
-  height: 30px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
   background-color: transparent;
-  border: 3px solid #000000;
+  border: 3.2px solid #000000;
   border-radius: 5px;
   position: relative;
   display: inline-block;
@@ -170,7 +170,7 @@
   box-sizing: border-box;
   position: absolute;
   height: 0;
-  width: 6px;
+  width: 6.4px;
   background-color: #34b93d;
   display: inline-block;
   -moz-transform-origin: left top;
@@ -185,9 +185,9 @@
   transition: opacity ease .5;
 }
 .todo-main-panel .check-box::before {
-  top: 21.6px;
-  left: 12.3px;
-  box-shadow: 0 0 0 1.5px #ffffff;
+  top: 23.04px;
+  left: 13.12px;
+  box-shadow: 0 0 0 1.6px #ffffff;
   -moz-transform: rotate(-135deg);
   -ms-transform: rotate(-135deg);
   -o-transform: rotate(-135deg);
@@ -195,8 +195,8 @@
   transform: rotate(-135deg);
 }
 .todo-main-panel .check-box::after {
-  top: 11.1px;
-  left: 1.5px;
+  top: 11.84px;
+  left: 1.6px;
   -moz-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   -o-transform: rotate(-45deg);
@@ -209,7 +209,7 @@
 }
 .todo-main-panel input[type=checkbox]:checked + .check-box::after,
 .todo-main-panel .check-box.checked::after {
-  height: 15px;
+  height: 16px;
   -moz-animation: dothabottomcheck 0.2s ease 0s forwards;
   -o-animation: dothabottomcheck 0.2s ease 0s forwards;
   -webkit-animation: dothabottomcheck 0.2s ease 0s forwards;
@@ -217,7 +217,7 @@
 }
 .todo-main-panel input[type=checkbox]:checked + .check-box::before,
 .todo-main-panel .check-box.checked::before {
-  height: 36px;
+  height: 38.4px;
   -moz-animation: dothatopcheck 0.4s ease 0s forwards;
   -o-animation: dothatopcheck 0.4s ease 0s forwards;
   -webkit-animation: dothatopcheck 0.4s ease 0s forwards;
@@ -232,9 +232,6 @@
 .todo-add-btn:focus {
   outline: none;
 }
-.todo-margin-top-10 {
-  margin-top: 10px;
-}
 .markdown-box * {
   margin: 0;
   padding: 0;
@@ -248,4 +245,12 @@
 }
 .margin-left-5 {
   margin-left: 5px;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.todo-update-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
 }

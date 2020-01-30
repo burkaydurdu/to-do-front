@@ -23,5 +23,7 @@
 
 (reg-event-fx
   :log-out-fail-on
-  (fn [_ _]
-    {:start-alert! {:message "Error" :error? true}}))
+  (fn [{:keys [db]} _]
+    {:db (dissoc db :current-user :states :coming-states)
+     :remove-current-user! []
+     :start-alert! {:message (str "Bye Bye " (-> db :current-user :name))}}))
