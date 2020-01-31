@@ -17,7 +17,7 @@
 (reg-event-db
   :re-balance-for-state
   (fn [db [_ old-idx new-idx]]
-    (assoc db :states 
+    (assoc db :states
            (-> (:states db)
                (vector-move old-idx new-idx)
                (set-state-order)))))
@@ -35,7 +35,7 @@
   :user-register-result-ok
   (fn [{:keys [db]} _]
     {:start-alert! {:message "Register is success"}
-     :db (-> db 
+     :db (-> db
              (assoc-in [:visibility :register-modal?] false)
              (dissoc :register-form))}))
 
@@ -129,3 +129,36 @@
   :send-states-fail-on
   (fn [_ [_ response]]
     {:start-alert! {:message "Error" :error? true}}))
+
+(reg-event-db
+  :copy-current-user-profile-data
+  (fn [db _]
+    (assoc db :profile-form (select-keys (:current-user db) [:dark_mode
+                                                             :font
+                                                             :font_size
+                                                             :name]))))
+
+(reg-event-fx
+  :user-profile-update
+  (fn [{:keys [db]} _]
+    {:http-xhrio (merge (util/create-request-map :put "/user"
+                                                 :user-profile-update-result-ok
+                                                 :user-profile-update-fail-on)
+                        {:params (:profile-form db)})}))
+
+(reg-event-fx
+  :user-profile-update-result-ok
+  (fn [{:keys [db]} _]
+    (let [current-user (merge (:current-user db) (:profile-form db))]
+      {:set-current-user! current-user
+       :db (-> db
+               (assoc :current-user current-user)
+               (assoc-in [:visibility :profile-modal?] false)
+               (dissoc :profile-form))
+       :start-alert! {:message "Update is success"}})))
+
+(reg-event-fx
+  :user-profile-update-fail-on
+  (fn [{:keys [db]}]
+    {:start-alert! {:message "Error" :error? true}}))
+

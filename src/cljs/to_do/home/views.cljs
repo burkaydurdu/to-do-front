@@ -21,7 +21,7 @@
       :class "check-box"}]])
 
 (defn input-view [id data open?]
-  (r/create-class 
+  (r/create-class
     {:component-did-mount #(some-> id dom/getElement .focus)
      :reagent-render (fn []
                        [:textarea.todo-input
@@ -40,7 +40,7 @@
 (defn todo-preview [data open?]
   [:div.markdown-preview-box
    {:on-click #(reset! open? true)}
-   [:div.markdown-box 
+   [:div.markdown-box
     [markdown-view (if (str/blank? @data)
                      "Your todo"
                      @data)]]])
@@ -62,11 +62,15 @@
     :on-click #(dispatch [:add-todo id-list])}])
 
 (defn delete-btn [id]
+  [ant/popconfirm
+   {:title      "Are you sure you want to delete"
+    :okText     "Yes"
+    :cancelText "No"
+    :onConfirm  #(dispatch [:delete-todo id])}
    [ant/button
     {:shape "circle"
      :icon "delete"
-     :type "danger"
-     :on-click #(dispatch [:delete-todo id])}])
+     :type "danger"}]])
 
 (defn todo-panel [state]
   [:div.todo-main-panel.margin-top-10.margin-bottom-10
@@ -93,6 +97,6 @@
     {:component-did-mount #(dispatch [:get-user-states])
      :reagent-render (fn []
                        (let [visibility @(subscribe [:visibility])]
-                         [:div 
+                         [:div
                           [state-panel]]))}))
 

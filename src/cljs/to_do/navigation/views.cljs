@@ -6,23 +6,24 @@
    [to-do.util :as util]
    [to-do.home.modals.register :refer [register-view]]
    [to-do.home.modals.login :refer [login-view]]
+   [to-do.home.modals.profile :refer [profile-view]]
    [antizer.reagent :as ant]))
 
 (defn sign-up-in-views []
   [:div
     [:a.margin-right-10
      {:on-click #(dispatch [:add-data [:visibility :register-modal?] true])}
-     [:strong 
+     [:strong
       "Sign up"]]
     [:a
      {:on-click #(dispatch [:add-data [:visibility :login-modal?] true])}
-     [:strong 
+     [:strong
       "Sign in"]]])
 
 (defn user-menu []
   [ant/menu
    [ant/menu-item
-    {:on-click #()}
+    {:on-click #(dispatch [:add-data [:visibility :profile-modal?] true])}
     [:a "Profile"]]
    [ant/menu-item
     {:on-click #(dispatch [:log-out])}
@@ -32,7 +33,7 @@
   [ant/dropdown
    {:overlay (r/as-element (user-menu))
     :class "ant-dropdown-link"}
-   [:a.ant-dropdown-link 
+   [:a.ant-dropdown-link
     (or (:name current-user) "no name")
     [:i.fa.fa-angle-down.margin-left-5]]])
 
@@ -44,7 +45,7 @@
 
 (defn brand-view []
   [:a.todo-navbar-logo
-   [:img 
+   [:img
     {:src "img/check.png"}]])
 
 (defn navbar-view [current-user]
@@ -59,7 +60,9 @@
      (when (:login-modal? visibility)
        [login-view])
      (when (:register-modal? visibility)
-       [register-view])]))
+       [register-view])
+     (when (:profile-modal? visibility)
+       [profile-view])]))
 
 (defn update-todo-button []
   (let [update-data? @(subscribe[:update-data-available?])]

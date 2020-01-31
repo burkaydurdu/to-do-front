@@ -12,6 +12,11 @@
     (:register-form db)))
 
 (reg-sub
+  :profile-form
+  (fn [db]
+    (:profile-form db)))
+
+(reg-sub
   :visibility
   (fn [db]
     (:visibility db)))
