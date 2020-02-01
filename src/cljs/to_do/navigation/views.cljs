@@ -50,6 +50,8 @@
 
 (defn navbar-view [current-user]
   [:nav.todo-navbar
+   {:class (when (:dark_mode current-user)
+               "dark-mode-navbar")}
    [:div.nav-wrapper
     [brand-view]
     [right-navbar-item current-user]]])
@@ -77,13 +79,17 @@
 (defn navigation-panel
   [active-panel current-user]
   (let [[panel panel-name] active-panel]
-    [:div
+    [:div.todo-container
      [update-todo-button]
      [modal-view]
      [navbar-view current-user]
-     [:div.container
-      (cond
-        (and (= :home panel-name) (util/not-nil? current-user)) [panel])]]))
+     [:div.todo-container-sub
+      {:class (when (:dark_mode current-user)
+                "dark-mode")
+       :style {:font-size (or (:font_size current-user) "18")}}
+      [:div.container.todo-box.padding-top-10
+       (cond
+         (and (= :home panel-name) (util/not-nil? current-user)) [panel])]]]))
 
 (defn main-panel []
   (r/create-class

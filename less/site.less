@@ -1,6 +1,8 @@
 @primary-color: #0facf3;
 @black: #000;
 @white: #FFF;
+@todo-dark: #15202b;
+@todo-dark-blue: #3e678c;
 @checked-color: #34b93d;
 @unchecked-color: #000;
 @checkbox-height: 32px;
@@ -67,6 +69,25 @@
   }
   100% {
     height: @checkbox-height * 1.2;
+  }
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+.todo-container {
+  height: 100%;
+  width: 100%;
+  .todo-container-sub {
+    width: 100%;
+    height: ~"calc(100% - 50px)";
+  }
+  .todo-box {
+    padding: 10px;
+    height: 100%;
+    overflow: auto;
   }
 }
 
@@ -261,6 +282,10 @@
     margin: 0;
     padding: 0;
     word-break: break-word;
+    img {
+      max-height: 30%;
+      max-width: 30%;
+    }
   }
 }
 
@@ -286,6 +311,10 @@
   margin-top: 10px;
 }
 
+.padding-top-10 {
+  padding-top: 10px;
+}
+
 .todo-update-button {
   position: fixed;
   right: 20px;
@@ -296,4 +325,33 @@
   .inline-box {
     display: inline-block;
   }
+}
+
+.dark-mode {
+  background-color: @todo-dark;
+  * {
+    background-color: @todo-dark;
+    color: @white;
+  }
+  button {
+    background: transparent
+  }
+  .check-box {
+    border-color: @white;
+    &::before {
+      box-shadow: 0 0 0 @checkbox-height * .05 @todo-dark;
+    }
+    &::before,
+    &::after {
+      background-color: #00FF7F;
+    }
+  }
+  input[type=checkbox]:checked+.check-box,
+  .check-box.checked {
+    border-color: #00FF7F;
+  }
+}
+
+.dark-mode-navbar {
+  background-color: @todo-dark-blue;
 }

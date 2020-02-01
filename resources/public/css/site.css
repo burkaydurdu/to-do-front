@@ -55,6 +55,23 @@
     height: 38.4px;
   }
 }
+#app {
+  height: 100%;
+  width: 100%;
+}
+.todo-container {
+  height: 100%;
+  width: 100%;
+}
+.todo-container .todo-container-sub {
+  width: 100%;
+  height: calc(100% - 50px);
+}
+.todo-container .todo-box {
+  padding: 10px;
+  height: 100%;
+  overflow: auto;
+}
 .todo-navbar {
   width: 100%;
   height: 50px;
@@ -237,6 +254,10 @@
   padding: 0;
   word-break: break-word;
 }
+.markdown-box * img {
+  max-height: 30%;
+  max-width: 30%;
+}
 .margin-right-10 {
   margin-right: 10px;
 }
@@ -252,6 +273,9 @@
 .margin-top-10 {
   margin-top: 10px;
 }
+.padding-top-10 {
+  padding-top: 10px;
+}
 .todo-update-button {
   position: fixed;
   right: 20px;
@@ -259,4 +283,31 @@
 }
 .todo-profile .inline-box {
   display: inline-block;
+}
+.dark-mode {
+  background-color: #15202b;
+}
+.dark-mode * {
+  background-color: #15202b;
+  color: #ffffff;
+}
+.dark-mode button {
+  background: transparent;
+}
+.dark-mode .check-box {
+  border-color: #ffffff;
+}
+.dark-mode .check-box::before {
+  box-shadow: 0 0 0 1.6px #15202b;
+}
+.dark-mode .check-box::before,
+.dark-mode .check-box::after {
+  background-color: #00FF7F;
+}
+.dark-mode input[type=checkbox]:checked + .check-box,
+.dark-mode .check-box.checked {
+  border-color: #00FF7F;
+}
+.dark-mode-navbar {
+  background-color: #3e678c;
 }

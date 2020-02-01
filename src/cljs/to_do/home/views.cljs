@@ -73,7 +73,7 @@
      :type "danger"}]])
 
 (defn todo-panel [state]
-  [:div.todo-main-panel.margin-top-10.margin-bottom-10
+  [:div.todo-main-panel.margin-bottom-10
    {:key (:id state)}
    [panel-checkbox (:id state) (:all_done state)]
    [panel-todo (:id state) (:title state)]
