@@ -57,10 +57,10 @@
   :user-login-result-ok
   (fn [{:keys [db]} [_ response]]
     {:set-current-user! response
-     :start-alert! {:message (str "Wellcome " (:name response))}
+     :start-alert! {:message (str "Welcome " (:name response))}
      :db (-> db
              (assoc :current-user response)
-             (assoc :visibility :login-modal? false)
+             (assoc-in [:visibility :login-modal?] false)
              (dissoc :login-form))}))
 
 (reg-event-fx

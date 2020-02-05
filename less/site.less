@@ -105,6 +105,7 @@
     justify-content: space-between;
     .todo-navbar-logo {
       height: 100%;
+      padding: 5px;
       img {
         height: 100%;
       }
@@ -155,7 +156,6 @@
   .markdown-preview-box {
     width: 100%;
     p {
-      font-size: 18px;
       line-height: 1.10em;
     }
   }
@@ -168,7 +168,6 @@
   }
   .todo-input {
     border: none;
-    font-size: 18px;
     resize: none;
     width: 100%;
     min-height: 30px;
@@ -286,6 +285,40 @@
       max-height: 30%;
       max-width: 30%;
     }
+  }
+}
+
+.todo-text-input {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, .65);
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  -webkit-appearance: none;
+  &:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px !important;
+  }
+  &:focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, .2);
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, .2);
   }
 }
 

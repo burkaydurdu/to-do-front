@@ -5,8 +5,8 @@
             [antizer.reagent :as ant]
             [to-do.util :as util]))
 
-(defn input-field [id type value event ph] 
-  [ant/input
+(defn input-field [id type value event ph]
+  [:input.todo-text-input
    {:id id
     :type type
     :value value
@@ -31,19 +31,19 @@
   [:div
    [:div.margin-bottom-10
     [input-field "signup_name_field" "text" (:name register-form)
-     #(dispatch [:add-data [:register-form :name] 
+     #(dispatch [:add-data [:register-form :name]
                  (-> % .-target .-value)]) "Name"]]
    [:div.margin-bottom-10
     [input-field "signup_email_field" "text" (:email register-form)
-     #(dispatch [:add-data [:register-form :email] 
+     #(dispatch [:add-data [:register-form :email]
                  (-> % .-target .-value)]) "Email"]]
    [:div.margin-bottom-10
     [input-field "signup_password_field" "password" (:password register-form)
-     #(dispatch [:add-data [:register-form :password] 
+     #(dispatch [:add-data [:register-form :password]
                  (-> % .-target .-value)]) "Password"]]
    [:div.margin-bottom-10
     [input-field "signup_password_conf_field" "password" (:password-conf register-form)
-     #(dispatch [:add-data [:register-form :password-conf] 
+     #(dispatch [:add-data [:register-form :password-conf]
                  (-> % .-target .-value)]) "Confirm password"]]
    [:div
     [select-gender (:gender register-form)]]])
@@ -66,7 +66,8 @@
                           {:title "Register"
                            :visible true
                            :onCancel #(exit-register-modal)
-                           :onOk #(when (register-form-control register-form)
-                                    (dispatch [:user-register]))
+                           :onOk #(if (register-form-control register-form)
+                                    (dispatch [:user-register])
+                                    (util/alert-action "Please! check your values" true))
                            :okText "Sign-up"}
                           [register-body-view register-form]]))}))

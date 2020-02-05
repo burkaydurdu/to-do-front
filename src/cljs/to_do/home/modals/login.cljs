@@ -5,8 +5,8 @@
             [antizer.reagent :as ant]
             [to-do.util :as util]))
 
-(defn input-field [id type value event ph] 
-  [ant/input
+(defn input-field [id type value event ph]
+  [:input.todo-text-input
    {:id id
     :type type
     :value value
@@ -22,11 +22,11 @@
    [:div
     [:div.margin-bottom-10
      [input-field "signin_email_field" "text" (:email login-form)
-      #(dispatch [:add-data [:login-form :email] 
+      #(dispatch [:add-data [:login-form :email]
                   (-> % .-target .-value)]) "Email"]]
     [:div
      [input-field "signin_password_field" "password" (:password login-form)
-      #(dispatch [:add-data [:login-form :password] 
+      #(dispatch [:add-data [:login-form :password]
                   (-> % .-target .-value)]) "Password"]]])
 
 (defn exit-login-modal []
@@ -41,7 +41,8 @@
                           {:title "Login"
                            :visible true
                            :onCancel #(exit-login-modal)
-                           :onOk #(when (login-form-control login-form)
-                                    (dispatch [:user-login]))
+                           :onOk #(if (login-form-control login-form)
+                                    (dispatch [:user-login])
+                                    (util/alert-action "Please! Check your values" true))
                            :okText "Sign-in"}
-                           [login-body-view login-form]]))}))
+                          [login-body-view login-form]]))}))
