@@ -17,8 +17,9 @@
                  [com.rpl/specter "1.1.2"]
                  [day8.re-frame/http-fx "0.1.6"]
                  [cljs-ajax "0.8.0"]
-                 [ring/ring-core "1.6.3"]
-                 [ring/ring-jetty-adapter "1.6.3"]
+                 [ring "1.7.1"]
+                 [amalloy/ring-gzip-middleware "0.1.3"]
+                 [compojure "1.6.1"]
                  [markdown-to-hiccup "0.6.2"]
                  [antizer-latest "0.1.0"]
                  [cljsjs/moment "2.24.0-0"]
@@ -30,21 +31,21 @@
 
   :source-paths ["src/clj" "src/cljs"]
 
-    
+
   :less {:source-paths ["less/"]
          :target-path  "resources/public/css"}
-  
+
   :resource-paths ["resources"]
+
+  :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :main ^:skip-aot to-do.core
 
   :ring {:handler to-do.core/handler}
-   
+
   :min-lein-version "2.6.1"
 
-  :profiles {:uberjar {:aot :all}
-
-             :dev {:dependencies [[binaryage/devtools "0.9.10"]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [day8.re-frame/re-frame-10x "0.4.2"]
                                   [day8.re-frame/tracing "0.5.3"]
                                   [figwheel-sidecar "0.5.18"]
@@ -52,8 +53,15 @@
                                   [compojure "1.6.1"]
                                   [amalloy/ring-gzip-middleware "0.1.3"]]
 
-                   :plugins [[lein-figwheel "0.5.18"]]}}
-  
+                   :plugins [[lein-figwheel "0.5.18"]]}
+
+             :uberjar {:omit-source  true
+                        :aot          :all
+                        :auto-clean   false
+                        :uberjar-name "todo_front.jar"
+                        :source-paths ["src/clj" "src/cljs"]
+                        :resource-paths ["env/prod/resources"]}}
+
   :cljsbuild {:builds [{:id           "dev"
                         :source-paths ["src/cljs"]
                         :figwheel     {:on-jsload "to-do.core/mount-root"}
@@ -67,5 +75,20 @@
                                        :closure-defines      {"re_frame.trace.trace_enabled_QMARK_"        true
                                                               "day8.re_frame.tracing.trace_enabled_QMARK_" true}
                                        :foreign-libs         ~foreign-libs
-                                       :externs              ~externs}}]})
+                                       :externs              ~externs}}
+                       {:id               "prod"
+                         :source-paths     ["src/cljs"]
+                         :compiler         {:main             to-do.core
+                                            :output-to        "resources/public/js/compiled/app.js"
+                                            :output-dir       "resources/public/js/compiled/prod/out"
+                                            :optimizations    :advanced
+                                            :pretty-print     false
+                                            :warnings         false
+                                            :foreign-libs     ~foreign-libs
+                                            :externs          ~externs
+                                            :closure-defines  {goog.DEBUG                 false
+                                                               "dashboard.util.api_url"   "https://api.pisano.co/v1"}
+                                            :closure-warnings {:externs-validation :off}}}]}
+  :aliases {"package" ["do" "clean" ["cljsbuild" "once" "prod"]]})
+
 
