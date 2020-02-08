@@ -31,7 +31,6 @@
 
   :source-paths ["src/clj" "src/cljs"]
 
-
   :less {:source-paths ["less/"]
          :target-path  "resources/public/css"}
 
@@ -56,11 +55,10 @@
                    :plugins [[lein-figwheel "0.5.18"]]}
 
              :uberjar {:omit-source  true
-                        :aot          :all
-                        :auto-clean   false
-                        :uberjar-name "todo_front.jar"
-                        :source-paths ["src/clj" "src/cljs"]
-                        :resource-paths ["env/prod/resources"]}}
+                       :aot          :all
+                       :auto-clean   false
+                       :uberjar-name "todo_front.jar"
+                       :source-paths ["src/clj" "src/cljs"]}}
 
   :cljsbuild {:builds [{:id           "dev"
                         :source-paths ["src/cljs"]
@@ -86,8 +84,7 @@
                                             :warnings         false
                                             :foreign-libs     ~foreign-libs
                                             :externs          ~externs
-                                            :closure-defines  {goog.DEBUG                 false
-                                                               "dashboard.util.api_url"   "https://api.pisano.co/v1"}
+                                            :closure-defines  {goog.DEBUG false}
                                             :closure-warnings {:externs-validation :off}}}]}
   :aliases {"package" ["do" "clean" ["cljsbuild" "once" "prod"]]})
 

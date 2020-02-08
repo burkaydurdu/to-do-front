@@ -4,7 +4,7 @@
             [antizer.reagent :as ant]
             [ajax.core :as ajax]))
 
-(goog-define api-url "http://localhost:3011")
+(goog-define api-url "http://159.203.74.207:3022")
 
 (def not-nil? (complement nil?))
 
