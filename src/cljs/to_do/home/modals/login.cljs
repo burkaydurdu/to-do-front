@@ -19,15 +19,20 @@
       (every? #(not (str/blank? %)) (vals login-form))))
 
 (defn login-body-view [login-form]
+  [:div
+   [:div.margin-bottom-10
+    [input-field "signin_email_field" "text" (:email login-form)
+     #(dispatch [:add-data [:login-form :email]
+                 (-> % .-target .-value)]) "Email"]]
+   [:div.margin-bottom-10
+    [input-field "signin_password_field" "password" (:password login-form)
+     #(dispatch [:add-data [:login-form :password]
+                 (-> % .-target .-value)]) "Password"]]
    [:div
-    [:div.margin-bottom-10
-     [input-field "signin_email_field" "text" (:email login-form)
-      #(dispatch [:add-data [:login-form :email]
-                  (-> % .-target .-value)]) "Email"]]
-    [:div
-     [input-field "signin_password_field" "password" (:password login-form)
-      #(dispatch [:add-data [:login-form :password]
-                  (-> % .-target .-value)]) "Password"]]])
+    [:span.todo-hyper-text
+     {:on-click #(do (util/set-uri-token! "/reset_password")
+                     (dispatch [:add-data [:visibility :login-modal?] false]))}
+     "Forget password"]]])
 
 (defn exit-login-modal []
   (util/dispatch-n [:add-data [:visibility :login-modal?] false]

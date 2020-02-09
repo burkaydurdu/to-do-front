@@ -55,8 +55,7 @@
 
 (defn add-todo [id-list]
   [ant/button
-   {:shape "circle"
-    :icon "plus"
+   {:icon "plus"
     :type "info"
     :class "margin-top-10"
     :on-click #(dispatch [:add-todo id-list])}])
@@ -68,8 +67,7 @@
     :cancelText "No"
     :onConfirm  #(dispatch [:delete-todo id])}
    [ant/button
-    {:shape "circle"
-     :icon "delete"
+    {:icon "delete"
      :type "danger"}]])
 
 (defn todo-panel [state]

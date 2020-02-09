@@ -1,14 +1,16 @@
 @primary-color: #0facf3;
 @black: #000;
+@black-v1: #0e0e0e;
 @white: #FFF;
+@gray: #f0f1f5;
 @todo-dark: #15202b;
 @todo-dark-blue: #3e678c;
 @checked-color: #34b93d;
 @unchecked-color: #000;
 @checkbox-height: 32px;
-@background-color: #FFF;
 @font-color: #efefef;
 @duration: .4s;
+@max768: ~"(max-width: 768px)";
 @-moz-keyframes dothabottomcheck {
   0% {
     height: 0;
@@ -81,22 +83,32 @@
   height: 100%;
   width: 100%;
   .todo-container-sub {
+    display: flex;
+    justify-content: center;
     width: 100%;
     height: ~"calc(100% - 50px)";
   }
   .todo-box {
-    padding: 10px;
+    width: 65%;
+    padding-top: 20px;
     height: 100%;
     overflow: auto;
+    @media @max768 {
+      width: 100%;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 }
 
 .todo-navbar {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 50px;
   background-color: @primary-color;
   .nav-wrapper {
-    width: 100%;
+    width: 65%;
     height: 100%;
     display: flex;
     a {
@@ -105,25 +117,24 @@
     justify-content: space-between;
     .todo-navbar-logo {
       height: 100%;
-      padding: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
       img {
         height: 100%;
       }
+    }
+    @media @max768 {
+      width: 100%;
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
   .right-box {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 20px;
     color: @black;
   }
-}
-
-.container {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto
 }
 
 .to-do-modal-body {
@@ -153,6 +164,8 @@
 .todo-main-panel {
   display: flex;
   justify-content: center;
+  background-color: @gray;
+  padding: 10px;
   .markdown-preview-box {
     width: 100%;
     p {
@@ -229,7 +242,7 @@
     &::before {
       top: @checkbox-height * .72;
       left: @checkbox-height * .41;
-      box-shadow: 0 0 0 @checkbox-height * .05 @background-color;
+      box-shadow: 0 0 0 @checkbox-height * .05 @gray;
       -moz-transform: rotate(-135deg);
       -ms-transform: rotate(-135deg);
       -o-transform: rotate(-135deg);
@@ -366,6 +379,12 @@
     background-color: @todo-dark;
     color: @white;
   }
+  .todo-main-panel {
+    background-color: @black-v1;
+    * {
+      background-color: @black-v1;
+    }
+  }
   button {
     background: transparent
   }
@@ -387,4 +406,25 @@
 
 .dark-mode-navbar {
   background-color: @todo-dark-blue;
+}
+
+.todo-hyper-text {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #1890ff;
+  cursor: pointer;
+}
+
+.center-form {
+  display: flex;
+  justify-content: center;
+}
+
+.direction-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-percent-50 {
+  width: 50%;
 }

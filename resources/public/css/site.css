@@ -64,21 +64,33 @@
   width: 100%;
 }
 .todo-container .todo-container-sub {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: calc(100% - 50px);
 }
 .todo-container .todo-box {
-  padding: 10px;
+  width: 65%;
+  padding-top: 20px;
   height: 100%;
   overflow: auto;
 }
+@media (max-width: 768px) {
+  .todo-container .todo-box {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 .todo-navbar {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 50px;
   background-color: #0facf3;
 }
 .todo-navbar .nav-wrapper {
-  width: 100%;
+  width: 65%;
   height: 100%;
   display: flex;
   justify-content: space-between;
@@ -88,22 +100,24 @@
 }
 .todo-navbar .nav-wrapper .todo-navbar-logo {
   height: 100%;
-  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .todo-navbar .nav-wrapper .todo-navbar-logo img {
   height: 100%;
+}
+@media (max-width: 768px) {
+  .todo-navbar .nav-wrapper {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 .todo-navbar .right-box {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 20px;
   color: #000000;
-}
-.container {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
 }
 .to-do-modal-body {
   width: 100%;
@@ -129,6 +143,8 @@
 .todo-main-panel {
   display: flex;
   justify-content: center;
+  background-color: #f0f1f5;
+  padding: 10px;
 }
 .todo-main-panel .markdown-preview-box {
   width: 100%;
@@ -203,7 +219,7 @@
 .todo-main-panel .check-box::before {
   top: 23.04px;
   left: 13.12px;
-  box-shadow: 0 0 0 1.6px #ffffff;
+  box-shadow: 0 0 0 1.6px #f0f1f5;
   -moz-transform: rotate(-135deg);
   -ms-transform: rotate(-135deg);
   -o-transform: rotate(-135deg);
@@ -323,6 +339,12 @@
   background-color: #15202b;
   color: #ffffff;
 }
+.dark-mode .todo-main-panel {
+  background-color: #0e0e0e;
+}
+.dark-mode .todo-main-panel * {
+  background-color: #0e0e0e;
+}
 .dark-mode button {
   background: transparent;
 }
@@ -342,4 +364,21 @@
 }
 .dark-mode-navbar {
   background-color: #3e678c;
+}
+.todo-hyper-text {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #1890ff;
+  cursor: pointer;
+}
+.center-form {
+  display: flex;
+  justify-content: center;
+}
+.direction-column {
+  display: flex;
+  flex-direction: column;
+}
+.container-percent-50 {
+  width: 50%;
 }

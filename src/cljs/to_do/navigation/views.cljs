@@ -87,9 +87,10 @@
       {:class (when (:dark_mode current-user)
                 "dark-mode")
        :style {:font-size (or (:font_size current-user) "18")}}
-      [:div.container.todo-box.padding-top-10
+      [:div.todo-box.padding-top-10
        (cond
-         (and (= :home panel-name) (util/not-nil? current-user)) [panel])]]]))
+         (and (= :home panel-name) (util/not-nil? current-user)) [panel]
+         (#{:reset-password :create-password} panel-name) [panel])]]]))
 
 (defn main-panel []
   (r/create-class

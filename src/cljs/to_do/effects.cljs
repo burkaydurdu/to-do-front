@@ -22,3 +22,13 @@
   :start-alert!
   (fn [opt]
     (util/alert-action (:message opt) (:error? opt))))
+
+(reg-fx
+  :change-url!
+  (fn [path]
+    (util/change-url path)))
+
+(reg-fx
+  :set-uri-token!
+  (fn [uri]
+    (util/set-uri-token! uri)))

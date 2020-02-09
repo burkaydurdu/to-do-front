@@ -1,10 +1,13 @@
 (ns to-do.util
   (:require [clojure.string :as str]
+            [cemerick.url :as url]
+            [pushy.core :as pushy]
+            [secretary.core :as secretary]
             [re-frame.core :refer [subscribe dispatch]]
             [antizer.reagent :as ant]
             [ajax.core :as ajax]))
 
-(goog-define api-url "http://159.203.74.207:3022")
+(goog-define api-url "http://localhost:3011")
 
 (def not-nil? (complement nil?))
 
@@ -78,3 +81,31 @@
 (defn alert-action [message error?]
   (ant/notification-open {:type (if error? "error" "success")
                           :description message}))
+
+(defn change-url
+  [path]
+  (set! window.location.href path))
+
+(defn window-origin []
+  (if-let [origin (-> js/window .-location .-origin)]
+    origin
+    (str (-> js/window .-location .-protocol) "//"
+         (-> js/window .-location .-hostname)
+         (if-let [port (-> js/window .-location .-port)]
+           (str ":" port)
+           ""))))
+
+(defn set-uri-token!
+  [uri]
+  (let [u (url/url (window-origin))
+        k (str u uri)]
+    (pushy/set-token! to-do.routes/history k)
+    (secretary/dispatch! uri)))
+
+(defn get-url-params
+  [url]
+  (->> url
+       (re-seq #"[?&]+([^=&]+)=([^&]*)")
+       (map (fn [[_ k v]]
+              [(keyword k) v]))
+       (into {})))
