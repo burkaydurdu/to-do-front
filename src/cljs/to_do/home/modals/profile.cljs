@@ -11,9 +11,10 @@
 
 
 (defn avatar-view [user-name]
-  [:div.margin-bottom-10
+  [:div.avatar-flex-box.margin-bottom-10
    [ant/avatar
-    {:size "large"
+    {:class "avatar-center-form"
+     :size "large"
      :icon "user"}]
    [:div.inline-box.margin-left-5 user-name]])
 

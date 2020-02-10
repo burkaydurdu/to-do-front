@@ -91,8 +91,19 @@
   .todo-box {
     width: 65%;
     padding-top: 20px;
+    padding-bottom: 20px;
     height: 100%;
-    overflow: auto;
+    .todo-state-panel {
+      overflow-y: auto;
+      height: 100%;
+      box-sizing: content-box;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+      &::scrollbar {
+        width: 0;
+      }
+    }
     @media @max768 {
       width: 100%;
       padding-left: 10px;
@@ -418,6 +429,17 @@
 .center-form {
   display: flex;
   justify-content: center;
+}
+
+.avatar-center-form {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-flex-box {
+  display: flex;
+  align-items: center;
 }
 
 .direction-column {

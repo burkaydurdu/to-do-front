@@ -117,6 +117,20 @@ select:focus,
 textarea:focus {
   background: transparent;
 }
+button::-webkit-scrollbar,
+input::-webkit-scrollbar,
+optgroup::-webkit-scrollbar,
+select::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+  width: 0;
+}
+button::scrollbar,
+input::scrollbar,
+optgroup::scrollbar,
+select::scrollbar,
+textarea::scrollbar {
+  width: 0;
+}
 button {
   overflow: visible;
 }

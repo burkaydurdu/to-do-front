@@ -72,8 +72,19 @@
 .todo-container .todo-box {
   width: 65%;
   padding-top: 20px;
+  padding-bottom: 20px;
   height: 100%;
-  overflow: auto;
+}
+.todo-container .todo-box .todo-state-panel {
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: content-box;
+}
+.todo-container .todo-box .todo-state-panel::-webkit-scrollbar {
+  width: 0;
+}
+.todo-container .todo-box .todo-state-panel::scrollbar {
+  width: 0;
 }
 @media (max-width: 768px) {
   .todo-container .todo-box {
@@ -374,6 +385,15 @@
 .center-form {
   display: flex;
   justify-content: center;
+}
+.avatar-center-form {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.avatar-flex-box {
+  display: flex;
+  align-items: center;
 }
 .direction-column {
   display: flex;

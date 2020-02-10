@@ -1,7 +1,7 @@
 (ns to-do.home.views
   (:require
    [reagent.core :as r]
-   [re-frame.core :refer [dispatch subscribe]]
+   [re-frame.core :refer [dispatch dispatch-sync subscribe]]
    [goog.dom :as dom]
    [to-do.home.sortable-hoc :as sortable]
    [to-do.home.subs]
@@ -47,7 +47,7 @@
 
 (defn panel-todo [id value]
   (let [data  (r/atom value)
-        open? (r/atom true)]
+        open? (r/atom false)]
     (fn [id value]
       (if @open?
         [input-view id data open?]
@@ -90,11 +90,20 @@
       [:re-balance-for-state]]
      [add-todo nil]]))
 
+(defn before-unload [e]
+  (let [confirm-message ""]
+    (when (and e @(subscribe [:update-data-available?]))
+      (set! (.-returnValue e) confirm-message))
+    (dispatch-sync [:send-states])
+    confirm-message))
+
 (defn home []
   (r/create-class
-    {:component-did-mount #(dispatch [:get-user-states])
+    {:component-did-mount #(do (.addEventListener js/window "beforeunload" before-unload)
+                               (dispatch [:get-user-states]))
+     :component-will-unmount #(.removeEventListener js/window "beforeunload" before-unload)
      :reagent-render (fn []
                        (let [visibility @(subscribe [:visibility])]
-                         [:div
+                         [:div.todo-state-panel
                           [state-panel]]))}))
 
