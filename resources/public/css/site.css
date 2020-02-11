@@ -346,7 +346,25 @@
 .dark-mode {
   background-color: #15202b;
 }
-.dark-mode * {
+.dark-mode .markdown-preview-box * {
+  background-color: #15202b;
+  color: #ffffff;
+}
+.dark-mode .checkbox-container * {
+  background-color: #15202b;
+  color: #ffffff;
+}
+.dark-mode .todo-delete-button {
+  background-color: transparent;
+  color: #ffffff;
+}
+.dark-mode .todo-delete-button i {
+  background: transparent !important;
+}
+.dark-mode .todo-delete-button i * {
+  background: transparent !important;
+}
+.dark-mode .todo-input {
   background-color: #15202b;
   color: #ffffff;
 }
@@ -363,7 +381,7 @@
   border-color: #ffffff;
 }
 .dark-mode .check-box::before {
-  box-shadow: 0 0 0 1.6px #15202b;
+  box-shadow: 0 0 0 1.6px #0e0e0e;
 }
 .dark-mode .check-box::before,
 .dark-mode .check-box::after {
@@ -401,4 +419,9 @@
 }
 .container-percent-50 {
   width: 50%;
+}
+.ant-modal-close-x {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }

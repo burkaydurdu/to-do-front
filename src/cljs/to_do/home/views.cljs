@@ -67,8 +67,9 @@
     :cancelText "No"
     :onConfirm  #(dispatch [:delete-todo id])}
    [ant/button
-    {:icon "delete"
-     :type "danger"}]])
+    {:class "todo-delete-button"
+     :icon  "delete"
+     :type  "danger"}]])
 
 (defn todo-panel [state]
   [:div.todo-main-panel.margin-bottom-10

@@ -386,7 +386,29 @@
 
 .dark-mode {
   background-color: @todo-dark;
-  * {
+  .markdown-preview-box {
+    * {
+      background-color: @todo-dark;
+      color: @white;
+    }
+  }
+  .checkbox-container {
+    * {
+      background-color: @todo-dark;
+      color: @white;
+    }
+  }
+  .todo-delete-button {
+    background-color: transparent;
+    color: @white;
+    i {
+      background: transparent !important;
+      * {
+        background: transparent !important;
+      }
+    }
+  }
+  .todo-input {
     background-color: @todo-dark;
     color: @white;
   }
@@ -402,7 +424,7 @@
   .check-box {
     border-color: @white;
     &::before {
-      box-shadow: 0 0 0 @checkbox-height * .05 @todo-dark;
+      box-shadow: 0 0 0 @checkbox-height * .05 @black-v1;
     }
     &::before,
     &::after {
@@ -449,4 +471,10 @@
 
 .container-percent-50 {
   width: 50%;
+}
+
+.ant-modal-close-x {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }

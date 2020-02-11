@@ -21,11 +21,12 @@
                        (let [reset-password @(subscribe[:reset-password])]
                          [:div.center-form
                           [:div.direction-column.container-percent-50
+                           [:h4 "You can reset your password here."]
                            [input-field
                             "reset_mail_field"
                             "text"
                             (:email reset-password)
-                            "Email"
+                            "Email address"
                             "margin-bottom-10"
                             #(dispatch [:add-data [:reset-password :email] (-> % .-target .-value)])]
                            [:div
@@ -46,6 +47,7 @@
                                password-conf (:password-conf create-password)]
                            [:div.center-form
                             [:div.direction-column.container-percent-50
+                             [:h4 "Enter your new password below."]
                              [input-field
                               "new_password"
                               "password"

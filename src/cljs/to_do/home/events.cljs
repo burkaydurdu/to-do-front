@@ -34,7 +34,7 @@
 (reg-event-fx
   :user-register-result-ok
   (fn [{:keys [db]} _]
-    {:start-alert! {:message "Register is success"}
+    {:start-alert! {:message "Register is successfully. Check your email"}
      :db (-> db
              (assoc-in [:visibility :register-modal?] false)
              (dissoc :register-form))}))
