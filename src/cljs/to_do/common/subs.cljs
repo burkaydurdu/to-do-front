@@ -5,3 +5,8 @@
   :token
   (fn [db]
     (-> db :current-user :token)))
+
+(reg-sub
+  :loading
+  (fn [db]
+    (:loading db)))

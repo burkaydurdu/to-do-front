@@ -41,11 +41,13 @@
 (defn login-view []
   (r/create-class
     {:reagent-render (fn []
-                       (let [login-form @(subscribe[:login-form])]
+                       (let [login-form @(subscribe[:login-form])
+                             loading    @(subscribe[:loading])]
                          [ant/modal
                           {:title "Login"
                            :visible true
                            :onCancel #(exit-login-modal)
+                           :confirm-loading (:login? loading)
                            :onOk #(if (login-form-control login-form)
                                     (dispatch [:user-login])
                                     (util/alert-action "Please! Check your values" true))

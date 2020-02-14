@@ -18,7 +18,8 @@
   (r/create-class
     {:component-will-unmount #(dispatch [:reset-in [:reset-password]])
      :reagent-render (fn []
-                       (let [reset-password @(subscribe[:reset-password])]
+                       (let [reset-password @(subscribe[:reset-password])
+                             loading        @(subscribe [:loading])]
                          [:div.center-form
                           [:div.direction-column.container-percent-50
                            [:h4 "You can reset your password here."]
@@ -32,10 +33,10 @@
                            [:div
                             [ant/button
                              {:type "primary"
+                              :loading (:reset-password? loading)
                               :on-click #(when (util/email? (:email reset-password))
                                            (dispatch [:reset-password]))}
                              "Send"]]]]))}))
-
 
 (defn create-new-password-view []
   (let []
@@ -43,8 +44,9 @@
       {:component-will-unmount #(dispatch [:reset-in [:create-password]])
        :reagent-render (fn []
                          (let [create-password @(subscribe [:create-password])
-                               password (:password create-password)
-                               password-conf (:password-conf create-password)]
+                               loading         @(subscribe [:loading])
+                               password        (:password create-password)
+                               password-conf   (:password-conf create-password)]
                            [:div.center-form
                             [:div.direction-column.container-percent-50
                              [:h4 "Enter your new password below."]
@@ -65,6 +67,7 @@
                              [:div
                               [ant/button
                                {:type "primary"
+                                :loading (:create-password? loading)
                                 :on-click #(when (= password password-conf)
                                              (dispatch [:create-password]))}
                                "Save"]]]]))})))

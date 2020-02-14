@@ -57,7 +57,7 @@
   [ant/button
    {:icon "plus"
     :type "info"
-    :class "margin-top-10"
+    :class "margin-top-10 todo-state-add-btn"
     :on-click #(dispatch [:add-todo id-list])}])
 
 (defn delete-btn [id]

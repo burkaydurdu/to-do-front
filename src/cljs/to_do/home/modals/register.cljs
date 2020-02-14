@@ -61,10 +61,12 @@
 (defn register-view []
   (r/create-class
     {:reagent-render (fn []
-                       (let [register-form @(subscribe[:register-form])]
+                       (let [register-form @(subscribe[:register-form])
+                             loading       @(subscribe[:loading])]
                          [ant/modal
                           {:title "Register"
                            :visible true
+                           :confirm-loading (:register? loading)
                            :onCancel #(exit-register-modal)
                            :onOk #(if (register-form-control register-form)
                                     (dispatch [:user-register])

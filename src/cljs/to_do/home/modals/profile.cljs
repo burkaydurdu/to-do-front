@@ -9,7 +9,6 @@
   (util/dispatch-n [:add-data [:visibility :profile-modal?] false]
                    [:reset-in [:profile-form]]))
 
-
 (defn avatar-view [user-name]
   [:div.avatar-flex-box.margin-bottom-10
    [ant/avatar
@@ -44,11 +43,13 @@
   (r/create-class
     {:component-did-mount #(dispatch [:copy-current-user-profile-data])
      :reagent-render (fn []
-                       (let [current-user @(subscribe [:profile-form])]
+                       (let [current-user @(subscribe [:profile-form])
+                             loading      @(subscribe[:loading])]
                          [ant/modal
                           {:title "Profile"
                            :class "todo-profile"
                            :visible true
+                           :confirm-loading (:profile? loading)
                            :onCancel #(exit-profile-modal)
                            :onOk #(dispatch [:user-profile-update])
                            :okText "Save"}

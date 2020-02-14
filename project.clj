@@ -54,9 +54,7 @@
                                   [ring "1.7.1"]
                                   [compojure "1.6.1"]
                                   [amalloy/ring-gzip-middleware "0.1.3"]]
-
                    :plugins [[lein-figwheel "0.5.18"]]}
-
              :uberjar {:omit-source  true
                        :aot          :all
                        :auto-clean   false
@@ -74,7 +72,8 @@
                                        :preloads             [devtools.preload
                                                               day8.re-frame-10x.preload]
                                        :closure-defines      {"re_frame.trace.trace_enabled_QMARK_"        true
-                                                              "day8.re_frame.tracing.trace_enabled_QMARK_" true}
+                                                              "day8.re_frame.tracing.trace_enabled_QMARK_" true
+                                                              "to_do.util.api_url" "http://localhost:3011"}
                                        :foreign-libs         ~foreign-libs
                                        :externs              ~externs}}
                        {:id               "prod"
@@ -87,7 +86,8 @@
                                             :warnings         false
                                             :foreign-libs     ~foreign-libs
                                             :externs          ~externs
-                                            :closure-defines  {goog.DEBUG false}
+                                            :closure-defines  {goog.DEBUG false
+                                                               "to_do.util.api_url" "http://159.203.74.207:3022"}
                                             :closure-warnings {:externs-validation :off}}}]}
   :aliases {"package" ["do" "clean" ["cljsbuild" "once" "prod"]]})
 

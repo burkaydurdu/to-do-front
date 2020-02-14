@@ -26,7 +26,8 @@
   :user-register
   (fn [{:keys [db]} _]
     (let [register-form (:register-form db)]
-      {:http-xhrio (merge (util/create-request-map :post "/register"
+      {:db  (assoc-in db [:loading :register?] true)
+       :http-xhrio (merge (util/create-request-map :post "/register"
                                                    :user-register-result-ok
                                                    :user-register-fail-on)
                           {:params (dissoc register-form :password-conf)})})))
@@ -37,18 +38,21 @@
     {:start-alert! {:message "Register is successfully. Check your email"}
      :db (-> db
              (assoc-in [:visibility :register-modal?] false)
+             (assoc-in [:loading :register?] false)
              (dissoc :register-form))}))
 
 (reg-event-fx
   :user-register-fail-on
-  (fn [_ [_ response]]
-    {:start-alert! {:message "Error" :error? true}}))
+  (fn [{:keys [db]} [_ response]]
+    {:db (assoc-in db [:loading :register?] false)
+     :start-alert! {:message "Error" :error? true}}))
 
 (reg-event-fx
   :user-login
   (fn [{:keys [db]} _]
     (let [login-form (:login-form db)]
-      {:http-xhrio (merge (util/create-request-map :post "/login"
+      {:db (assoc-in db [:loading :login?] true)
+       :http-xhrio (merge (util/create-request-map :post "/login"
                                                    :user-login-result-ok
                                                    :user-login-fail-on)
                           {:params login-form})})))
@@ -61,12 +65,14 @@
      :db (-> db
              (assoc :current-user response)
              (assoc-in [:visibility :login-modal?] false)
+             (assoc-in [:loading :login?] false)
              (dissoc :login-form))}))
 
 (reg-event-fx
   :user-login-fail-on
-  (fn [_ [_ response]]
-    {:start-alert! {:message "Error" :error? true}}))
+  (fn [{:keys [db]} [_ response]]
+    {:db  (assoc-in db [:loading :login?] false)
+     :start-alert! {:message "Error" :error? true}}))
 
 (reg-event-fx
   :get-user-states
@@ -141,7 +147,8 @@
 (reg-event-fx
   :user-profile-update
   (fn [{:keys [db]} _]
-    {:http-xhrio (merge (util/create-request-map :put "/user"
+    {:db         (assoc-in db [:loading :profile?] true)
+     :http-xhrio (merge (util/create-request-map :put "/user"
                                                  :user-profile-update-result-ok
                                                  :user-profile-update-fail-on)
                         {:params (:profile-form db)})}))
@@ -154,11 +161,13 @@
        :db (-> db
                (assoc :current-user current-user)
                (assoc-in [:visibility :profile-modal?] false)
+               (assoc-in [:loading :profile?] false)
                (dissoc :profile-form))
        :start-alert! {:message "Update is success"}})))
 
 (reg-event-fx
   :user-profile-update-fail-on
   (fn [{:keys [db]}]
-    {:start-alert! {:message "Error" :error? true}}))
+    {:db (assoc-in db [:loading :profile?] false)
+     :start-alert! {:message "Error" :error? true}}))
 

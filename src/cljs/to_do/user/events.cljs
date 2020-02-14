@@ -5,7 +5,8 @@
 (reg-event-fx
   :reset-password
   (fn [{:keys [db]} _]
-    {:http-xhrio (merge (util/create-request-map :get
+    {:db         (assoc-in db [:loading :reset-password?] true)
+     :http-xhrio (merge (util/create-request-map :get
                                                  "/reset_password"
                                                  :reset-password-result-ok
                                                  :reset-password-fail-on)
@@ -14,14 +15,17 @@
 (reg-event-fx
   :reset-password-result-ok
   (fn [{:keys [db]} _]
-    {:db (assoc-in db [:visibility :login-modal?] true)
+    {:db (-> db
+             (assoc-in [:visibility :login-modal?] true)
+             (assoc-in [:loading :reset-password?] false))
      :set-uri-token! "/"
      :start-alert! {:message "Sent successfully"}}))
 
 (reg-event-fx
   :reset-password-fail-on
   (fn [{:keys [db]} _]
-    {:start-alert! {:message "Error" :error? true}}))
+    {:db           (assoc-in db [:loading :reset-password?] false)
+     :start-alert! {:message "Error" :error? true}}))
 
 
 (reg-event-fx
@@ -30,8 +34,8 @@
     (let [url-params (-> (util/get-url-params js/window.location.href)
                          (select-keys [:email :token]))
           params (conj url-params {:password (-> db :create-password :password)})]
-
-      {:http-xhrio (merge (util/create-request-map :get
+      {:db         (assoc-in db [:loading :create-password?] true)
+       :http-xhrio (merge (util/create-request-map :get
                                                  "/create_password"
                                                  :create-password-result-ok
                                                  :create-password-fail-on)
@@ -40,11 +44,14 @@
 (reg-event-fx
   :create-password-result-ok
   (fn [{:keys [db]} _]
-    {:db (assoc-in db [:visibility :login-modal?] true)
+    {:db (-> db
+             (assoc-in [:visibility :login-modal?] true)
+             (assoc-in [:loading :create-password?] false))
      :set-uri-token! "/"
      :start-alert! {:message "Save successfully"}}))
 
 (reg-event-fx
   :create-password-fail-on
   (fn [{:keys [db]} _]
-    {:start-alert! {:message "Error" :error? true}}))
+    {:db           (assoc-in db [:loading :create-password?] false)
+     :start-alert! {:message "Error" :error? true}}))
