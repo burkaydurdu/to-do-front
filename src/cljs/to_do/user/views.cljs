@@ -14,6 +14,42 @@
     :on-change event
     :placeholder ph}])
 
+(defn gif-box-view [src title]
+  [:div.gif-box
+   [ant/card
+    {:hoverable true
+     :style {:width 200}
+     :cover (r/as-element [:img {:src src}])}
+    [:h3 title]]])
+
+(defn info-main-view []
+  (r/create-class
+    {:reagent-render (fn []
+                       [:div
+                        [:h3 "Examples"]
+                        [:div.info-box
+                          [gif-box-view "img/header.gif" "Header"]
+                          [gif-box-view "img/bold.gif" "Bold"]
+                          [gif-box-view "img/image.gif" "Image"]
+                          [gif-box-view "img/move.gif" "Move"]]])}))
+
+(defn todo-header-view []
+  [:div.todo-header
+   [:img
+    {:src "img/todo.jpg"}]
+   [:div.description
+    [:p "With this application you can create todo list."]
+    [:h2 "let's start"]]])
+
+(defn todo-visual-view []
+  [:div.todo-visual-box
+   [:h3 "Images"]
+   [:div.todo-visual
+    [:img
+     {:src "img/norm_mod.png"}]
+    [:img
+     {:src "img/dark_mod.png"}]]])
+
 (defn reset-password-view []
   (r/create-class
     {:component-will-unmount #(dispatch [:reset-in [:reset-password]])

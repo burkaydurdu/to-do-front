@@ -7,6 +7,7 @@
    [to-do.home.modals.register :refer [register-view]]
    [to-do.home.modals.login :refer [login-view]]
    [to-do.home.modals.profile :refer [profile-view]]
+   [to-do.user.views :refer [info-main-view todo-header-view todo-visual-view]]
    [antizer.reagent :as ant]))
 
 (defn sign-up-in-views []
@@ -76,6 +77,12 @@
        :size "large"
        :on-click #(dispatch [:send-states])}]])))
 
+(defn home-page-view []
+  [:div
+   [todo-header-view]
+   [info-main-view]
+   [todo-visual-view]])
+
 (defn navigation-panel
   [active-panel current-user]
   (let [[panel panel-name] active-panel]
@@ -90,7 +97,8 @@
       [:div.todo-box.padding-top-10
        (cond
          (and (= :home panel-name) (util/not-nil? current-user)) [panel]
-         (#{:reset-password :create-password} panel-name) [panel])]]]))
+         (#{:reset-password :create-password} panel-name) [panel]
+         :else [home-page-view])]]]))
 
 (defn main-panel []
   (r/create-class

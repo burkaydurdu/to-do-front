@@ -428,3 +428,47 @@
   justify-content: center;
   align-items: center;
 }
+.info-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.info-box .gif-box {
+  transition: transform .2s;
+  margin: 10px;
+}
+.info-box .gif-box img {
+  width: 100%;
+}
+.info-box .gif-box:hover {
+  transform: scale(2);
+  z-index: 999;
+}
+.todo-header {
+  display: flex;
+  flex-direction: row;
+}
+.todo-header img {
+  width: 50%;
+}
+.todo-header p {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 24px;
+  text-align: center;
+}
+.todo-header h2 {
+  text-align: center;
+}
+.todo-visual-box {
+  margin: 10px;
+}
+.todo-visual-box .todo-visual {
+  display: flex;
+  justify-content: space-between;
+}
+.todo-visual-box .todo-visual img {
+  width: 40%;
+}
