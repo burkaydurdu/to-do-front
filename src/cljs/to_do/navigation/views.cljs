@@ -94,6 +94,7 @@
 
 (defn main-panel []
   (r/create-class
-    {:reagent-render
+    {:component-did-mount #(dispatch [:check-user])
+     :reagent-render
      (fn []
        [navigation-panel @(subscribe [:active-panel]) @(subscribe [:current-user])])}))
