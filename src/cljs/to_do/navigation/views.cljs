@@ -7,7 +7,7 @@
    [to-do.home.modals.register :refer [register-view]]
    [to-do.home.modals.login :refer [login-view]]
    [to-do.home.modals.profile :refer [profile-view]]
-   [to-do.user.views :refer [info-main-view todo-header-view todo-visual-view]]
+   [to-do.user.views :refer [todo-header-view]]
    [antizer.reagent :as ant]))
 
 (defn sign-up-in-views []
@@ -79,9 +79,7 @@
 
 (defn home-page-view []
   [:div
-   [todo-header-view]
-   [info-main-view]
-   [todo-visual-view]])
+   [todo-header-view]])
 
 (defn navigation-panel
   [active-panel current-user]

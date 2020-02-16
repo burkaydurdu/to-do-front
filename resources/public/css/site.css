@@ -448,6 +448,8 @@
 .todo-header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .todo-header img {
   width: 50%;
@@ -461,6 +463,26 @@
 }
 .todo-header h2 {
   text-align: center;
+}
+.todo-header h2 a {
+  color: #0facf3;
+}
+@media (max-width: 768px) {
+  .todo-header {
+    flex-direction: column;
+  }
+  .todo-header p {
+    margin-top: 10px;
+  }
+}
+.todo-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+.todo-footer img {
+  width: 60%;
 }
 .todo-visual-box {
   margin: 10px;

@@ -503,6 +503,8 @@
 .todo-header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   img {
     width: 50%;
   }
@@ -515,6 +517,24 @@
   }
   h2 {
     text-align: center;
+    a {
+      color: @primary-color;
+    }
+  }
+  @media @max768 {
+    flex-direction: column;
+    p {
+      margin-top: 10px;
+    }
+  }
+}
+.todo-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  img {
+    width: 60%;
   }
 }
 
