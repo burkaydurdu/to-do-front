@@ -478,6 +478,7 @@
 .todo-footer {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 20px;
 }
 .todo-footer img {
