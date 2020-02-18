@@ -87,7 +87,7 @@
         (vec
           (map-indexed
             (fn [index item]
-              [todo-panel item]) (sort-by :order states))))
+              [todo-panel item]) (sort-by :s_order states))))
       [:re-balance-for-state]]
      [add-todo nil]]))
 

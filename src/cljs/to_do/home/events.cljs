@@ -84,8 +84,9 @@
 (reg-event-db
   :get-user-states-result-ok
   (fn [db [_ response]]
-    (assoc db :states response
-              :coming-states response)))
+    (let [sort-res (vec (sort-by :s_order response))]
+     (assoc db :states sort-res
+               :coming-states sort-res))))
 
 (reg-event-fx
   :get-user-states-fail-on
