@@ -2,20 +2,12 @@
   (:require [re-frame.core :refer [dispatch]]
             [goog.object :as go]
             [reagent.core :as r]
-            [sortable :as sortable]))
-
-(def sortable-handle
-  (go/get js/SortableHOC "SortableHandle"))
-
-(def sortable-element
-  (go/get js/SortableHOC "SortableElement"))
-
-(def sortable-container
-  (go/get js/SortableHOC "SortableContainer"))
+            [sortable :as sortable]
+            [react-sortable-hoc :as sort]))
 
 (def drag-handle
   (r/adapt-react-class
-   (sortable-handle
+   (sort/SortableHandle
     (fn [item]
       (let [i (:children (js->clj item :keywordize-keys true))]
         (r/as-component
@@ -23,7 +15,7 @@
 
 (def sortable-item
   (r/adapt-react-class
-   (sortable-element
+   (sort/SortableElement
     (r/reactify-component
      (fn [{:keys [value]}]
        [:div
@@ -31,7 +23,7 @@
 
 (def sortable-list
   (r/adapt-react-class
-   (sortable-container
+   (sort/SortableContainer
     (r/reactify-component
      (fn [{:keys [items] :as m}]
        [:div

@@ -1,10 +1,3 @@
-(def foreign-libs '[{:file           "resources/public/js/sortable.js"
-                     :provides       ["sortable"]
-                     :file-min       "resources/public/js/sortable.js"
-                     :global-exports {sortable sortable}}])
-
-(def externs '["resources/public/js/externs/sortable.js"])
-
 (defproject to-do "0.1.0"
   :description "Client and server side template"
   :url "https://github/burkaydurdu/charizard"
@@ -26,7 +19,8 @@
                  [markdown-to-hiccup "0.6.2"]
                  [antizer-latest "0.1.0"]
                  [cljsjs/moment "2.24.0-0"]
-                 [clj-commons/secretary "1.2.4"]]
+                 [clj-commons/secretary "1.2.4"]
+                 [cljsjs/react-sortable-hoc "1.11.0-1"]]
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-less "1.7.5"]
             [lein-ring "0.12.5"]
@@ -73,8 +67,7 @@
                                                               day8.re-frame-10x.preload]
                                        :closure-defines      {"re_frame.trace.trace_enabled_QMARK_"        true
                                                               "day8.re_frame.tracing.trace_enabled_QMARK_" true
-                                                              "to_do.util.api_url" "http://localhost:3011"}
-                                       :foreign-libs         ~foreign-libs
+                                                              "to_do.util.api_url" "http://localhost:3022"}
                                        :externs              ~externs}}
                        {:id               "prod"
                          :source-paths     ["src/cljs"]
@@ -84,7 +77,6 @@
                                             :optimizations    :advanced
                                             :pretty-print     false
                                             :warnings         false
-                                            :foreign-libs     ~foreign-libs
                                             :externs          ~externs
                                             :closure-defines  {goog.DEBUG false
                                                                "to_do.util.api_url" "http://159.203.74.207:3022"}
